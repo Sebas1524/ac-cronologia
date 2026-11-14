@@ -198,6 +198,669 @@ img{max-width:100%;height:auto}
 @media (prefers-reduced-motion:reduce){.cvring,#cvapple{animation:none}}
 @media (max-width:820px){.fmain{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.a3{animation:none}}
+
+/* ==========================================================================
+   ANIMUS INTRO CINEMATIC PLAYER (2:15)
+   ========================================================================== */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#intro[hidden] {
+  display: none !important;
+}
+
+#inCv {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+#intro .scanl {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background: linear-gradient(rgba(18,26,36,0) 50%, rgba(0,0,0,0.4) 50%);
+  background-size: 100% 4px;
+  opacity: 0.6;
+}
+
+#intro .sc {
+  position: absolute;
+  inset: 0;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  z-index: 3;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 24px 80px;
+}
+#intro .sc.active {
+  display: flex;
+  opacity: 1;
+}
+
+#intro .cu {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+#intro .cu.on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#intro h2.big {
+  font: 400 clamp(30px, 5.2vw, 64px)/1.1 Marcellus, Georgia, serif;
+  margin: 16px 0 10px;
+  letter-spacing: 0.04em;
+  color: #e6ecf2;
+  text-shadow: 0 0 35px rgba(255,255,255,0.4), 0 0 60px rgba(0,240,255,0.25);
+  max-width: 900px;
+  z-index: 5;
+}
+#intro p.sub {
+  font-size: clamp(16px, 2.2vw, 24px);
+  color: #8d9bad;
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+  z-index: 5;
+}
+#intro p.cap {
+  font-size: clamp(16px, 2.1vw, 25px);
+  line-height: 1.45;
+  color: #f0f4f8;
+  max-width: 760px;
+  margin: 20px auto 0;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.95), 0 0 2px #000;
+  z-index: 5;
+}
+#intro p.cap.low {
+  position: absolute;
+  bottom: 105px;
+  left: 24px;
+  right: 24px;
+  margin: 0 auto;
+}
+#intro .tag {
+  display: inline-block;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  padding: 4px 14px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  z-index: 5;
+  text-transform: uppercase;
+}
+#intro .tag.t1 {
+  background: rgba(0,240,255,0.12);
+  border: 1px solid #00F0FF;
+  color: #00F0FF;
+  box-shadow: 0 0 16px rgba(0,240,255,0.3);
+}
+#intro .tag.t2 {
+  background: rgba(200,16,46,0.15);
+  border: 1px solid #D4AF37;
+  color: #D4AF37;
+  box-shadow: 0 0 16px rgba(212,175,55,0.3);
+}
+
+/* Scene 1 */
+#sc1 .apl {
+  width: clamp(130px, 20vw, 220px);
+  height: clamp(130px, 20vw, 220px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 45px rgba(212,175,55,0.7)) drop-shadow(0 0 90px rgba(212,175,55,0.35));
+  animation: floatApple 5s ease-in-out infinite;
+  z-index: 5;
+}
+@keyframes floatApple {
+  0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 40px rgba(212,175,55,0.65)); }
+  50% { transform: translateY(-10px) scale(1.03); filter: drop-shadow(0 0 65px rgba(212,175,55,0.9)); }
+}
+
+/* Split screen */
+#intro .split {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+#intro .split .half {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+#intro .mid {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, #00F0FF 0%, #fff 50%, #C8102E 100%);
+  box-shadow: 0 0 16px rgba(0,240,255,0.8), 0 0 16px rgba(200,16,46,0.8);
+  z-index: 6;
+}
+
+/* Scene 2 */
+#sc2 .hl {
+  background: radial-gradient(circle at 60% 50%, rgba(0,240,255,0.18) 0%, rgba(2,16,20,0.95) 75%);
+}
+#sc2 .hr {
+  background: radial-gradient(circle at 40% 50%, rgba(200,16,46,0.22) 0%, rgba(20,4,6,0.95) 75%);
+}
+#sc2 .hin {
+  width: clamp(140px, 22vw, 240px);
+  height: clamp(140px, 22vw, 240px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 12s ease-out;
+}
+#sc2.active .hl .hin {
+  transform: translateY(-24px);
+}
+#sc2.active .hr .hin {
+  transform: translateY(24px);
+}
+#sc2 svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Scene 3 & 4 Background Pics */
+#intro .pic.art {
+  position: absolute;
+  inset: -6%;
+  opacity: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1s ease, transform var(--d, 10s) linear;
+  transform: scale(1.05) translate(0, 0);
+  z-index: 2;
+}
+#intro .pic.art.on {
+  opacity: 1;
+  transform: scale(1.18) translate(-1.5%, -2%);
+}
+#intro .pic.art.pan.on {
+  transform: scale(1.16) translate(2.5%, -1.5%);
+}
+#intro .pic.art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.88) 100%),
+              linear-gradient(to top, rgba(0,0,0,0.92) 0%, transparent 50%);
+}
+#intro .flash {
+  position: absolute;
+  inset: 0;
+  background: #e8fcff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 8;
+  transition: opacity 0.35s ease-out;
+}
+#intro .flash.on {
+  opacity: 0.95;
+}
+#intro .veil.v1 {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 40%, rgba(0,240,255,0.12) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+#intro .veil.v2 {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 35%, rgba(200,16,46,0.18) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Scene 4 */
+#sc4 .emb {
+  width: clamp(90px, 14vw, 150px);
+  height: clamp(90px, 14vw, 150px);
+  filter: drop-shadow(0 0 30px rgba(212,175,55,0.8));
+  z-index: 5;
+  margin-bottom: 12px;
+}
+#sc4 .geo {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(212,175,55,0.15) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 3;
+}
+#sc4 .lab {
+  position: absolute;
+  top: 72px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: #D4AF37;
+  padding: 3px 10px;
+  border: 1px solid rgba(212,175,55,0.4);
+  border-radius: 3px;
+  background: rgba(0,0,0,0.7);
+  z-index: 5;
+}
+
+/* Scene 5 */
+#sc5 .sil.art {
+  position: absolute;
+  inset: -4%;
+  opacity: 0;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(100%) brightness(25%) contrast(160%);
+  transition: opacity 1s ease, transform 8s linear;
+  transform: scale(1.05);
+  z-index: 2;
+  pointer-events: none;
+}
+#sc5 .sil.art.on {
+  opacity: 0.55;
+  transform: scale(1.14);
+}
+#sc5 .rel {
+  position: absolute;
+  max-width: clamp(180px, 32vw, 360px);
+  max-height: clamp(220px, 42vh, 440px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 35px rgba(212,175,55,0.75)) drop-shadow(0 0 8px rgba(255,255,255,0.9));
+  z-index: 4;
+  top: 44%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#sc5 .rel.on {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Scene 6: Credos */
+#sc6 .c6l {
+  background: radial-gradient(circle at 60% 50%, rgba(0,240,255,0.12) 0%, rgba(2,16,20,0.95) 75%);
+  border-right: 1px solid rgba(0,240,255,0.3);
+}
+#sc6 .c6r {
+  background: radial-gradient(circle at 40% 50%, rgba(200,16,46,0.15) 0%, rgba(20,4,6,0.95) 75%);
+  border-left: 1px solid rgba(200,16,46,0.3);
+}
+#sc6 .credo {
+  font-family: Marcellus, Georgia, serif;
+  font-size: clamp(20px, 3.2vw, 38px);
+  line-height: 1.35;
+  max-width: 440px;
+  text-align: center;
+  z-index: 5;
+  margin: 0;
+}
+#sc6 .c6l .credo {
+  color: #00F0FF;
+  text-shadow: 0 0 24px rgba(0,240,255,0.75);
+}
+#sc6 .c6r .credo {
+  color: #ff4d67;
+  text-shadow: 0 0 24px rgba(200,16,46,0.85);
+}
+#sc6 .who {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  margin-top: 24px;
+  opacity: 0.8;
+  z-index: 5;
+}
+#sc6 .c6l .who { color: #8df7ff; }
+#sc6 .c6r .who { color: #D4AF37; }
+#sc6 .w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(14px) scale(0.92);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: 0 4px;
+}
+#sc6 .w.in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Scene 7: Choque */
+#sc7 .h7l {
+  background: rgba(0,240,255,0.15);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#sc7 .h7r {
+  background: rgba(200,16,46,0.2);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#sc7.active .h7l { transform: translateX(20px); }
+#sc7.active .h7r { transform: translateX(-20px); }
+#sc7 .crack {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  height: 100%;
+  transform: translateX(-50%);
+  z-index: 7;
+  filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #00F0FF);
+}
+#sc7 .ap7 {
+  position: relative;
+  width: clamp(140px, 22vw, 240px);
+  height: clamp(140px, 22vw, 240px);
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#sc7 .ap7 img.apple {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+#sc7 .ap7 img.g1 {
+  mix-blend-mode: screen;
+  filter: drop-shadow(-8px 0 0 rgba(255,0,0,0.9));
+  animation: glitch1 0.25s infinite steps(2);
+}
+#sc7 .ap7 img.g2 {
+  mix-blend-mode: screen;
+  filter: drop-shadow(8px 0 0 rgba(0,240,255,0.9));
+  animation: glitch2 0.3s infinite steps(2);
+}
+@keyframes glitch1 {
+  0% { transform: translate(-3px, 2px) skewX(2deg); }
+  50% { transform: translate(4px, -1px) skewX(-2deg); }
+  100% { transform: translate(-1px, -2px); }
+}
+@keyframes glitch2 {
+  0% { transform: translate(3px, -2px) skewX(-2deg); }
+  50% { transform: translate(-4px, 2px) skewX(3deg); }
+  100% { transform: translate(2px, 1px); }
+}
+#sc7 .cutb {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 99;
+  transition: opacity 0.15s ease;
+}
+#sc7 .cutb.on { opacity: 1; }
+
+/* Scene 8: Cierre */
+#sc8 .ap8 {
+  width: clamp(100px, 16vw, 170px);
+  height: clamp(100px, 16vw, 170px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 45px rgba(212,175,55,0.85));
+  animation: floatApple 5s ease-in-out infinite;
+  margin-bottom: 12px;
+  z-index: 5;
+}
+#sc8 h2.b8 {
+  font-size: clamp(22px, 3.8vw, 42px);
+  color: #fff;
+  text-shadow: 0 0 30px rgba(0,240,255,0.4);
+}
+#sc8 p.s8 {
+  color: #00F0FF;
+  letter-spacing: 0.2em;
+  margin-bottom: 24px;
+}
+#sc8 .act {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  z-index: 10;
+  margin-top: 10px;
+}
+#sc8 button {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(14px, 1.8vw, 17px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 12px 28px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+}
+#sc8 .bA {
+  background: rgba(0,240,255,0.12);
+  border: 1.5px solid #00F0FF;
+  color: #00F0FF;
+  box-shadow: 0 0 20px rgba(0,240,255,0.25);
+}
+#sc8 .bA:hover {
+  background: #00F0FF;
+  color: #000;
+  box-shadow: 0 0 35px rgba(0,240,255,0.6);
+  transform: translateY(-2px);
+}
+#sc8 .bG {
+  background: rgba(212,175,55,0.14);
+  border: 1.5px solid #D4AF37;
+  color: #D4AF37;
+  box-shadow: 0 0 20px rgba(212,175,55,0.25);
+}
+#sc8 .bG:hover {
+  background: #D4AF37;
+  color: #000;
+  box-shadow: 0 0 35px rgba(212,175,55,0.6);
+  transform: translateY(-2px);
+}
+#sc8 .bReplay {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #8d9bad;
+  padding: 10px 20px;
+  font-size: 13px;
+}
+#sc8 .bReplay:hover {
+  color: #fff;
+  border-color: #fff;
+}
+
+/* Player UI: Top Bar & Bottom Bar */
+#intro .itop, #intro .ibar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+}
+#intro .itop {
+  top: 0;
+  height: 60px;
+  padding: 0 24px;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
+}
+#intro #inCh {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #00F0FF;
+  text-shadow: 0 0 10px rgba(0,240,255,0.5);
+  text-transform: uppercase;
+}
+#intro .itop-r {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#intro .ibtn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: #e6ecf2;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+#intro .ibtn:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: #00F0FF;
+  color: #fff;
+}
+#intro .ibtn.on {
+  border-color: #00F0FF;
+  color: #00F0FF;
+  box-shadow: 0 0 12px rgba(0,240,255,0.3);
+}
+
+#intro .ibar {
+  bottom: 0;
+  height: 68px;
+  padding: 0 24px;
+  gap: 16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.92) 20%, transparent);
+}
+#intro #inPlay {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+#intro #inTime {
+  font-family: 'Rajdhani', monospace;
+  font-size: 15px;
+  font-weight: 600;
+  color: #8d9bad;
+  min-width: 95px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+#intro .iprog {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  height: 10px;
+  cursor: pointer;
+  position: relative;
+  align-items: center;
+  padding: 12px 0;
+}
+#intro .in-seg {
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.2s, background 0.2s;
+}
+#intro .iprog:hover .in-seg {
+  height: 7px;
+}
+#intro .in-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  background: #00F0FF;
+  box-shadow: 0 0 8px #00F0FF;
+}
+#intro .in-seg.past .in-fill {
+  width: 100%;
+}
+#intro .in-tip {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(11,16,23,0.95);
+  border: 1px solid #00F0FF;
+  color: #fff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 30;
+}
+#intro .iprog:hover .in-tip {
+  opacity: 1;
+}
+
+#intro #inSkip {
+  flex-shrink: 0;
+}
+
+/* Trigger button in modes */
+#inBtn {
+  border-color: #00F0FF !important;
+  color: #00F0FF !important;
+  box-shadow: 0 0 14px rgba(0,240,255,0.22);
+}
+#inBtn:hover {
+  background: rgba(0,240,255,0.12) !important;
+  box-shadow: 0 0 20px rgba(0,240,255,0.45);
+}
+
 </style>
 </head>
 <body>
@@ -222,13 +885,165 @@ img{max-width:100%;height:auto}
 <p class="fsec" id="s1">1. Las Manzanas del Edén</p><p class="fi" id="fapl"></p>
 <div class="fg" id="fg"></div><p class="fsec" id="s2">2. Báculos y Cetros del Edén</p><div class="fg" id="fg2"></div><p class="fsec" id="s3">3. Serie Espadas</p><p class="fi" id="fsw"></p><div class="fg" id="fg3"></div><p class="fsec" id="s4">4. Serie Sudarios</p><p class="fi" id="fsu"></p><div class="fg" id="fg4"></div><p class="fsec" id="s5">5. Serie Calaveras de Cristal</p><p class="fi" id="fsk"></p><div class="fg" id="fg5"></div><p class="fsec" id="s6">6. Serie Armas de Combate y Proyectiles</p><p class="fi" id="far"></p><div class="fg" id="fg6"></div><p class="fsec" id="s7">7. Serie Protección y Registro de Datos</p><p class="fi" id="fpr"></p><div class="fg" id="fg7"></div></div></div>
 <div id="arts" aria-hidden="true"><div class="art" data-k="od"></div><div class="art" data-k="ac1"></div><div class="art" data-k="ac2"></div><div class="art" data-k="bf"></div><div class="art" data-k="un"></div><div class="art" data-k="sy"></div><div class="art" data-k="br"></div><div class="art" data-k="re"></div><div class="art" data-k="ac3"></div><div class="art" data-k="or"></div><div class="art" data-k="va"></div><div class="art" data-k="mi"></div><div class="art" data-k="ro"></div><div class="art" data-k="sh"></div></div>
+
+<div id="intro" hidden role="dialog" aria-modal="true" aria-label="Secuencia introductoria Animus">
+  <canvas id="inCv"></canvas>
+  <div class="scanl"></div>
+
+  <!-- Scene 1: Apertura (0:00 - 0:15) -->
+  <section class="sc" id="sc1">
+    <img class="apl cu apple" data-in="0" alt="Manzana del Edén">
+    <h2 class="big cu" data-in="1.5">¿LIBERTAD U ORDEN?</h2>
+    <p class="sub cu" data-in="5.5">Dos visiones. Una misma herencia.</p>
+  </section>
+
+  <!-- Scene 2: La Fractura (0:15 - 0:30) -->
+  <section class="sc" id="sc2">
+    <div class="split">
+      <div class="half hl">
+        <div class="hin">
+          <svg viewBox="0 0 200 260" aria-hidden="true">
+            <defs>
+              <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#e8fcff"/>
+                <stop offset="1" stop-color="#00F0FF" stop-opacity=".3"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#hg)" d="M100 8C72 8 56 38 56 68c0 22-14 40-30 84l-4 100h156l-4-100c-16-44-30-62-30-84 0-30-16-60-44-60z"/>
+            <path fill="#021014" d="M100 52c-20 0-32 16-32 38 0 24 14 40 32 40s32-16 32-40c0-22-12-38-32-38z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="half hr">
+        <div class="hin">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <polygon fill="#C8102E" stroke="#D4AF37" stroke-width="5" stroke-linejoin="round" points="80,5 120,5 106,62 138,94 195,80 195,120 138,106 106,138 120,195 80,195 94,138 62,106 5,120 5,80 62,94 94,62"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="mid"></div>
+    <p class="cap cu" data-in="2">Durante milenios, dos fuerzas ocultas han moldeado el destino de la humanidad desde las sombras.</p>
+  </section>
+
+  <!-- Scene 3: Los Ocultos (0:30 - 0:50) -->
+  <section class="sc" id="sc3">
+    <div class="pic art kb pan cu" data-in="0" data-out="10.5" data-k="or" style="--d:11s"></div>
+    <div class="flash cu" data-in="9.8" data-out="10.6"></div>
+    <div class="pic art kb cu" data-in="10" data-k="ac1" style="--d:10s"></div>
+    <div class="veil v1"></div>
+    <p class="tag t1">03 · ASESINOS</p>
+    <p class="cap cu" data-in="1" data-out="9.8">49 a.C. — Egipto. Bayek y Aya fundan Los Ocultos para proteger el libre albedrío.</p>
+    <p class="cap cu" data-in="11.5">Siglos después, Altaïr reformará la Hermandad.</p>
+  </section>
+
+  <!-- Scene 4: La Orden (0:50 - 1:10) -->
+  <section class="sc" id="sc4">
+    <div class="pic art kb cu" data-in="0" data-out="6.5" data-k="od" style="--d:7s"></div>
+    <div class="pic art kb pan cu" data-in="6" data-out="12.5" data-k="mi" style="--d:7s"></div>
+    <div class="pic art kb cu" data-in="12" data-k="va" style="--d:8s"></div>
+    <div class="veil v2"></div>
+    <div class="geo cu" data-in="12.5"></div>
+    <svg class="emb cu" data-in="13" viewBox="0 0 200 200" aria-hidden="true">
+      <polygon fill="#C8102E" stroke="#D4AF37" stroke-width="4" stroke-linejoin="round" points="80,5 120,5 106,62 138,94 195,80 195,120 138,106 106,138 120,195 80,195 94,138 62,106 5,120 5,80 62,94 94,62"/>
+    </svg>
+    <p class="tag t2">04 · TEMPLARIOS</p>
+    <p class="lab cu" data-in="0.8" data-out="6">CULTO DE KOSMOS</p>
+    <p class="lab cu" data-in="6.8" data-out="12">ORDEN DE LOS ANTIGUOS</p>
+    <p class="lab cu" data-in="12.8">ALFREDO EL GRANDE</p>
+    <p class="cap cu" data-in="1" data-out="12">Del Culto de Kosmos a la Orden de los Antiguos: el control absoluto como camino hacia la paz.</p>
+    <p class="cap cu" data-in="13.5">En el siglo IX, Alfredo el Grande purga la Orden y siembra la semilla de los Caballeros Templarios.</p>
+  </section>
+
+  <!-- Scene 5: Las Reliquias (1:10 - 1:30) -->
+  <section class="sc" id="sc5">
+    <div class="sil art cu" data-in="0" data-out="6.8" data-k="ac2"></div>
+    <div class="sil art cu" data-in="6.5" data-out="13.3" data-k="bf"></div>
+    <div class="sil art cu" data-in="13" data-k="ro"></div>
+    <img class="rel cu" data-in="0" data-out="6.8" data-s="0" alt="Báculo Papal">
+    <img class="rel cu" data-in="6.5" data-out="13.3" data-s="3" alt="Espada del Templo">
+    <img class="rel cu" data-in="13" data-s="17" alt="Caja de los Precursores">
+    <p class="tag t2 cu" data-in="0.2">05 · LOS FRAGMENTOS</p>
+    <p class="cap cu low" data-in="0.5" data-out="10.5">El verdadero campo de batalla: los Fragmentos del Edén.</p>
+    <p class="cap cu low" data-in="11">Tecnología de la Primera Civilización capaz de someter o liberar mentes.</p>
+  </section>
+
+  <!-- Scene 6: Los Credos (1:30 - 1:50) -->
+  <section class="sc" id="sc6">
+    <div class="split">
+      <div class="half c6l">
+        <p class="credo" data-words="«NADA ES VERDAD, TODO ESTÁ PERMITIDO.»"></p>
+        <p class="who">ASESINOS</p>
+      </div>
+      <div class="half c6r">
+        <p class="credo" data-words="«QUE EL PADRE DEL ENTENDIMIENTO NOS GUÍE.»" data-o="8"></p>
+        <p class="who">TEMPLARIOS</p>
+      </div>
+    </div>
+    <div class="mid"></div>
+  </section>
+
+  <!-- Scene 7: El Choque (1:50 - 2:05) -->
+  <section class="sc" id="sc7">
+    <div class="split">
+      <div class="half h7l"></div>
+      <div class="half h7r"></div>
+    </div>
+    <svg class="crack cu" data-in="0.3" viewBox="0 0 20 100" preserveAspectRatio="none" aria-hidden="true">
+      <polyline fill="none" stroke="#fff" stroke-width="1.4" points="10,0 7,12 13,24 6,38 14,52 7,66 13,80 9,100"/>
+    </svg>
+    <div class="ap7 cu" data-in="4.2" data-out="14.1">
+      <img class="apple" alt="">
+      <img class="apple g1" alt="">
+      <img class="apple g2" alt="">
+    </div>
+    <p class="cap cu" data-in="5.5" data-out="14">Sin vencedores definitivos. La guerra continúa en cada época.</p>
+    <div class="cutb cu" data-in="14.2"></div>
+  </section>
+
+  <!-- Scene 8: Cierre y Acceso (2:05 - 2:15) -->
+  <section class="sc" id="sc8">
+    <img class="ap8 apple cu" data-in="0" alt="Manzana del Edén">
+    <h2 class="big b8 cu" data-in="0.8">BASE DE DATOS DE LA PRIMERA CIVILIZACIÓN</h2>
+    <p class="sub s8 cu" data-in="2.2">Sincronización completa.</p>
+    <div class="act cu" data-in="3.5">
+      <button type="button" class="bA" id="inGoT">EXPLORAR CRONOLOGÍA</button>
+      <button type="button" class="bG" id="inGoF">VER FRAGMENTOS DEL EDÉN</button>
+      <button type="button" class="bReplay" id="inReplay">⟲ REPETIR INICIACIÓN</button>
+    </div>
+  </section>
+
+  <!-- Top UI -->
+  <div class="itop">
+    <span id="inCh">01 // EL ORIGEN</span>
+    <div class="itop-r">
+      <button type="button" class="ibtn" id="inSnd">ACTIVAR SONIDO</button>
+      <button type="button" class="ibtn" id="inClose" aria-label="Cerrar introducción">✕ CERRAR</button>
+    </div>
+  </div>
+
+  <!-- Bottom UI -->
+  <div class="ibar">
+    <button type="button" class="ibtn" id="inPlay" aria-label="Pausar">❚❚</button>
+    <span id="inTime">0:00 / 2:15</span>
+    <div class="iprog" id="inProg">
+      <div class="in-tip" id="inTip"></div>
+    </div>
+    <button type="button" class="ibtn" id="inSkip">SALTAR SECUENCIA ▸▸</button>
+  </div>
+
+  <audio id="inAudio" loop preload="none">
+    <source src="musica-intro.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
 <header>
   <h1>Assassin’s Creed<br>cronología</h1>
   <p>Dos mil años de guerra secreta entre Asesinos y Templarios. Cada punto de la hélice es un recuerdo. Arrastra para girarla y toca un punto para revivirlo.</p>
 </header>
 <div class="modes" role="group" aria-label="Orden">
   <button type="button" id="mHist" aria-pressed="true">Orden histórico</button>
-  <button type="button" id="mRel" aria-pressed="false">Orden de lanzamiento</button><button type="button" id="fragBtn">Fragmentos del Edén</button>
+  <button type="button" id="mRel" aria-pressed="false">Orden de lanzamiento</button><button type="button" id="fragBtn">Fragmentos del Edén</button><button type="button" id="inBtn">▶ Iniciación (2:15)</button>
 </div>
 <div class="helix"><canvas id="dna" tabindex="0" role="img" aria-label="Hélice de ADN con un punto por cada juego. Arrastra para girar, toca un punto para elegir."></canvas></div>
 <button type="button" id="enter">Entrar al recuerdo</button>
@@ -491,6 +1306,398 @@ $("cventer").onclick=function(){enterDB()};
     b.onclick=function(){enterDB("s"+(i+1))};$("cvidx").appendChild(b);
   });
 })();
+
+/* ==========================================================================
+   ANIMUS INTRO CINEMATIC PLAYER ENGINE
+   ========================================================================== */
+(function() {
+  var IN_DUR = 135; // 2:15 in seconds
+  var IN_CH = [
+    { id: "sc1", name: "01 // El Origen", s: 0, e: 15, tag: "01 · EL ORIGEN" },
+    { id: "sc2", name: "02 // El Conflicto", s: 15, e: 30, tag: "02 · EL CONFLICTO" },
+    { id: "sc3", name: "03 // Los Asesinos", s: 30, e: 50, tag: "03 · ASESINOS" },
+    { id: "sc4", name: "04 // La Orden", s: 50, e: 70, tag: "04 · TEMPLARIOS" },
+    { id: "sc5", name: "05 // Las Reliquias", s: 70, e: 90, tag: "05 · LOS FRAGMENTOS" },
+    { id: "sc6", name: "06 // Los Credos", s: 90, e: 110, tag: "06 · LOS CREDOS" },
+    { id: "sc7", name: "07 // El Choque", s: 110, e: 125, tag: "07 · DESINCRONIZACIÓN" },
+    { id: "sc8", name: "08 // Cierre y Acceso", s: 125, e: 135, tag: "08 · ARCHIVO" }
+  ];
+
+  var inCurTime = 0, inPlaying = false, inLastT = 0, inRAF = null;
+  var inRoot = $("intro"), inPlayBtn = $("inPlay"), inTimeTxt = $("inTime"), inChTxt = $("inCh");
+  var inProg = $("inProg"), inTip = $("inTip"), inSndBtn = $("inSnd"), inAudio = $("inAudio");
+  var inCv = $("inCv"), inCx = inCv ? inCv.getContext("2d") : null;
+  var inSegEls = [];
+
+  // Setup kinetic typography for Scene 6
+  document.querySelectorAll("#sc6 .credo").forEach(function(el) {
+    var raw = el.dataset.words || "";
+    var offset = parseFloat(el.dataset.o || 0);
+    var words = raw.split(" ");
+    el.innerHTML = words.map(function(w, i) {
+      return '<span class="w" data-ti="' + (offset + i * 1.05) + '">' + w + '</span>';
+    }).join(" ");
+  });
+
+  // Assign image sources from main page
+  var apSrc = $("appleimg") ? $("appleimg").src : "";
+  document.querySelectorAll("#intro .apple").forEach(function(im) { im.src = apSrc; });
+  document.querySelectorAll("#intro .rel").forEach(function(im) {
+    var s = im.dataset.s;
+    if (s && window.SI && window.SI[s]) im.src = window.SI[s].src;
+    else {
+      var el = $("sImg" + s);
+      if (el) im.src = el.src;
+    }
+  });
+
+  // Build segmented progress bar
+  IN_CH.forEach(function(c, i) {
+    var dur = c.e - c.s;
+    var seg = document.createElement("div");
+    seg.className = "in-seg";
+    seg.style.flex = dur;
+    seg.innerHTML = '<div class="in-fill"></div>';
+    seg.title = c.name + " (" + fmtTime(c.s) + " - " + fmtTime(c.e) + ")";
+    seg.onclick = function(e) {
+      e.stopPropagation();
+      seekTo(c.s);
+    };
+    seg.onmouseenter = function() {
+      inTip.textContent = c.name + " [" + fmtTime(c.s) + "]";
+    };
+    inProg.appendChild(seg);
+    inSegEls.push(seg);
+  });
+
+  function fmtTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = Math.floor(sec % 60);
+    return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  // Audio Synthesizer (Web Audio API fallback + MP3 support)
+  var aCtx = null, droneGain = null, pulseGain = null, isSoundOn = false;
+  function initAudio() {
+    if (aCtx) return;
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      aCtx = new AC();
+      var osc1 = aCtx.createOscillator();
+      var osc2 = aCtx.createOscillator();
+      var filter = aCtx.createBiquadFilter();
+      droneGain = aCtx.createGain();
+
+      osc1.type = "sine"; osc1.frequency.value = 55;
+      osc2.type = "sawtooth"; osc2.frequency.value = 110;
+      filter.type = "lowpass"; filter.frequency.value = 180;
+      droneGain.gain.value = 0.08;
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(droneGain);
+      droneGain.connect(aCtx.destination);
+
+      osc1.start(); osc2.start();
+    } catch(e) {}
+  }
+
+  function toggleSound(force) {
+    isSoundOn = typeof force === "boolean" ? force : !isSoundOn;
+    if (isSoundOn) {
+      inSndBtn.textContent = "SILENCIAR";
+      inSndBtn.classList.add("on");
+      initAudio();
+      if (aCtx && aCtx.state === "suspended") aCtx.resume();
+      if (droneGain && aCtx) droneGain.gain.setTargetAtTime(0.08, aCtx.currentTime, 0.5);
+      if (inAudio) {
+        inAudio.play().catch(function() {});
+      }
+    } else {
+      inSndBtn.textContent = "ACTIVAR SONIDO";
+      inSndBtn.classList.remove("on");
+      if (droneGain && aCtx) droneGain.gain.setTargetAtTime(0, aCtx.currentTime, 0.2);
+      if (inAudio) inAudio.pause();
+    }
+  }
+  inSndBtn.onclick = function() { toggleSound(); };
+
+  // Canvas particle & glitch system
+  var parts = [], cvW = 0, cvH = 0;
+  function resizeCv() {
+    if (!inCv) return;
+    cvW = inCv.width = window.innerWidth;
+    cvH = inCv.height = window.innerHeight;
+    parts = [];
+    for (var i = 0; i < 65; i++) {
+      parts.push({
+        x: Math.random() * cvW,
+        y: Math.random() * cvH,
+        r: 1 + Math.random() * 2.2,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: -0.3 - Math.random() * 0.7,
+        a: 0.2 + Math.random() * 0.6
+      });
+    }
+  }
+  window.addEventListener("resize", resizeCv);
+  resizeCv();
+
+  function drawCanvas(chIdx, tRel) {
+    if (!inCx || !cvW) return;
+    inCx.clearRect(0, 0, cvW, cvH);
+
+    // Chapter 6: Animus Hex Rain
+    if (chIdx === 5) {
+      inCx.font = "12px 'Rajdhani', monospace";
+      for (var col = 0; col < cvW; col += 48) {
+        var isLeft = col < cvW / 2;
+        inCx.fillStyle = isLeft ? "rgba(0,240,255,0.18)" : "rgba(200,16,46,0.22)";
+        var hexStr = "0x" + Math.floor(Math.random() * 256).toString(16).toUpperCase();
+        var yPos = ((Date.now() * 0.08 + col * 12) % cvH);
+        inCx.fillText(hexStr, col, yPos);
+      }
+      return;
+    }
+
+    // Chapter 7: Digital glitch slice displacement
+    if (chIdx === 6 && tRel > 3) {
+      if (Math.random() > 0.4) {
+        var numBands = 3 + Math.floor(Math.random() * 5);
+        for (var b = 0; b < numBands; b++) {
+          var by = Math.random() * cvH;
+          var bh = 4 + Math.random() * 18;
+          var rgb = Math.random() > 0.5 ? "rgba(0,240,255,0.3)" : "rgba(255,0,40,0.35)";
+          inCx.fillStyle = rgb;
+          inCx.fillRect(0, by, cvW, bh);
+        }
+      }
+      return;
+    }
+
+    // Standard floating embers / data particles
+    var colMode = (chIdx === 0 || chIdx === 7) ? "gold" : (chIdx === 2 ? "cyan" : (chIdx === 3 ? "crimson" : "gold"));
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.y < 0) { p.y = cvH; p.x = Math.random() * cvW; }
+      if (p.x < 0) p.x = cvW;
+      if (p.x > cvW) p.x = 0;
+
+      inCx.beginPath();
+      inCx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      if (colMode === "gold") inCx.fillStyle = "rgba(212,175,55," + p.a + ")";
+      else if (colMode === "cyan") inCx.fillStyle = "rgba(0,240,255," + p.a + ")";
+      else inCx.fillStyle = "rgba(200,16,46," + p.a + ")";
+      inCx.shadowColor = inCx.fillStyle;
+      inCx.shadowBlur = 8;
+      inCx.fill();
+    }
+    inCx.shadowBlur = 0;
+  }
+
+  // Update scenes and elements for current time
+  function update(t) {
+    if (t > IN_DUR) t = IN_DUR;
+    inCurTime = t;
+
+    // Time text
+    inTimeTxt.textContent = fmtTime(t) + " / " + fmtTime(IN_DUR);
+
+    // Current Chapter
+    var curChIdx = 0;
+    for (var i = 0; i < IN_CH.length; i++) {
+      if (t >= IN_CH[i].s && (t < IN_CH[i].e || i === IN_CH.length - 1)) {
+        curChIdx = i;
+        break;
+      }
+    }
+    var curCh = IN_CH[curChIdx];
+    inChTxt.textContent = curCh.name;
+
+    // Progress bar fill
+    IN_CH.forEach(function(c, i) {
+      var seg = inSegEls[i];
+      var fill = seg.querySelector(".in-fill");
+      if (t >= c.e) {
+        seg.classList.add("past");
+        fill.style.width = "100%";
+      } else if (t < c.s) {
+        seg.classList.remove("past");
+        fill.style.width = "0%";
+      } else {
+        seg.classList.remove("past");
+        var p = ((t - c.s) / (c.e - c.s)) * 100;
+        fill.style.width = Math.min(100, Math.max(0, p)) + "%";
+      }
+    });
+
+    // Update scene activation & cues
+    var tRel = t - curCh.s;
+    IN_CH.forEach(function(c, i) {
+      var scEl = document.getElementById(c.id);
+      if (!scEl) return;
+      var isActive = (i === curChIdx);
+      scEl.classList.toggle("active", isActive);
+
+      if (isActive) {
+        scEl.querySelectorAll(".cu").forEach(function(cu) {
+          var din = parseFloat(cu.dataset.in || 0);
+          var dout = parseFloat(cu.dataset.out || 9999);
+          cu.classList.toggle("on", tRel >= din && tRel < dout);
+        });
+
+        // Kinetic typography in Scene 6
+        if (c.id === "sc6") {
+          scEl.querySelectorAll(".w").forEach(function(w) {
+            var ti = parseFloat(w.dataset.ti || 0);
+            w.classList.toggle("in", tRel >= ti);
+          });
+        }
+      }
+    });
+
+    // Draw canvas effects
+    drawCanvas(curChIdx, tRel);
+
+    // Auto pause at end
+    if (t >= IN_DUR && inPlaying) {
+      pause();
+    }
+  }
+
+  // Playback Loop
+  function tick(now) {
+    if (!inPlaying) return;
+    if (!inLastT) inLastT = now;
+    var dt = (now - inLastT) / 1000;
+    inLastT = now;
+
+    var nextT = inCurTime + dt;
+    if (nextT >= IN_DUR) {
+      nextT = IN_DUR;
+      update(nextT);
+      pause();
+      return;
+    }
+    update(nextT);
+    inRAF = requestAnimationFrame(tick);
+  }
+
+  function play() {
+    if (inCurTime >= IN_DUR) inCurTime = 0;
+    inPlaying = true;
+    inLastT = performance.now();
+    inPlayBtn.innerHTML = "❚❚";
+    inPlayBtn.setAttribute("aria-label", "Pausar");
+    if (isSoundOn && inAudio) inAudio.play().catch(function(){});
+    if (inRAF) cancelAnimationFrame(inRAF);
+    inRAF = requestAnimationFrame(tick);
+  }
+
+  function pause() {
+    inPlaying = false;
+    inPlayBtn.innerHTML = "▶";
+    inPlayBtn.setAttribute("aria-label", "Reanudar");
+    if (inAudio) inAudio.pause();
+    if (inRAF) cancelAnimationFrame(inRAF);
+  }
+
+  function seekTo(sec) {
+    inCurTime = Math.max(0, Math.min(IN_DUR, sec));
+    update(inCurTime);
+    if (inPlaying) {
+      inLastT = performance.now();
+    }
+  }
+
+  inPlayBtn.onclick = function() {
+    if (inPlaying) pause();
+    else play();
+  };
+
+  $("inSkip").onclick = function() {
+    seekTo(125); // Jump straight to Scene 8
+  };
+
+  // Open & Close Intro
+  function openIntro() {
+    inRoot.hidden = false;
+    resizeCv();
+    seekTo(0);
+    play();
+    $("inClose").focus();
+  }
+
+  function closeIntro() {
+    pause();
+    inRoot.hidden = true;
+    if (droneGain && aCtx) droneGain.gain.setTargetAtTime(0, aCtx.currentTime, 0.1);
+    if (inAudio) inAudio.pause();
+    var btn = $("inBtn");
+    if (btn) btn.focus();
+  }
+
+  $("inClose").onclick = closeIntro;
+
+  // Scene 8 Action Buttons
+  $("inGoT").onclick = function() {
+    closeIntro();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  $("inGoF").onclick = function() {
+    closeIntro();
+    var fBtn = $("fragBtn");
+    if (fBtn) fBtn.click();
+  };
+  $("inReplay").onclick = function() {
+    seekTo(0);
+    play();
+  };
+
+  // Trigger button in top navigation
+  var introTrigger = $("inBtn");
+  if (introTrigger) introTrigger.onclick = openIntro;
+
+  // Visibility change auto-pause
+  document.addEventListener("visibilitychange", function() {
+    if (document.hidden && inPlaying) {
+      pause();
+    }
+  });
+
+  // Keyboard navigation
+  document.addEventListener("keydown", function(e) {
+    if (inRoot.hidden) return;
+    if (e.key === "Escape") {
+      closeIntro();
+    } else if (e.key === " " || e.code === "Space") {
+      e.preventDefault();
+      if (inPlaying) pause(); else play();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      // Next chapter
+      for (var i = 0; i < IN_CH.length; i++) {
+        if (IN_CH[i].s > inCurTime + 0.5) { seekTo(IN_CH[i].s); break; }
+      }
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      // Prev chapter
+      for (var j = IN_CH.length - 1; j >= 0; j--) {
+        if (IN_CH[j].s < inCurTime - 1.5) { seekTo(IN_CH[j].s); break; }
+        else if (j === 0) { seekTo(0); }
+      }
+    } else if (e.key === "m" || e.key === "M") {
+      toggleSound();
+    }
+  });
+
+  // Expose globally if needed
+  window.openAnimusIntro = openIntro;
+})();
+
 </script>
 </body>
 </html>

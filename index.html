@@ -200,7 +200,7 @@ img{max-width:100%;height:auto}
 @media (prefers-reduced-motion:reduce){.a3{animation:none}}
 
 /* ==========================================================================
-   ANIMUS INTRO CINEMATIC PLAYER (2:15)
+   ANIMUS INTRO CINEMATIC PLAYER (2:15) - ENHANCED VISUAL EDITION
    ========================================================================== */
 #intro {
   position: fixed;
@@ -265,7 +265,7 @@ img{max-width:100%;height:auto}
 }
 
 #intro h2.big {
-  font: 400 clamp(30px, 5.2vw, 64px)/1.1 Marcellus, Georgia, serif;
+  font: 400 clamp(26px, 4.6vw, 56px)/1.15 Marcellus, Georgia, serif;
   margin: 16px 0 10px;
   letter-spacing: 0.04em;
   color: #e6ecf2;
@@ -274,27 +274,27 @@ img{max-width:100%;height:auto}
   z-index: 5;
 }
 #intro p.sub {
-  font-size: clamp(16px, 2.2vw, 24px);
-  color: #8d9bad;
+  font-size: clamp(15px, 2.0vw, 22px);
+  color: #c9d6e4;
   margin: 0;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
   font-family: 'Rajdhani', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   z-index: 5;
+  text-shadow: 0 2px 14px #000;
 }
 #intro p.cap {
-  font-size: clamp(16px, 2.1vw, 25px);
-  line-height: 1.45;
+  font-size: clamp(16px, 2.0vw, 24px);
+  line-height: 1.5;
   color: #f0f4f8;
-  max-width: 760px;
-  margin: 20px auto 0;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.95), 0 0 2px #000;
+  max-width: 780px;
+  margin: 18px auto 0;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.98), 0 0 4px #000;
   z-index: 5;
 }
 #intro p.cap.low {
   position: absolute;
-  bottom: 105px;
+  bottom: 95px;
   left: 24px;
   right: 24px;
   margin: 0 auto;
@@ -312,33 +312,121 @@ img{max-width:100%;height:auto}
   text-transform: uppercase;
 }
 #intro .tag.t1 {
-  background: rgba(0,240,255,0.12);
+  background: rgba(0,240,255,0.14);
   border: 1px solid #00F0FF;
   color: #00F0FF;
-  box-shadow: 0 0 16px rgba(0,240,255,0.3);
+  box-shadow: 0 0 18px rgba(0,240,255,0.35);
 }
 #intro .tag.t2 {
-  background: rgba(200,16,46,0.15);
+  background: rgba(200,16,46,0.18);
   border: 1px solid #D4AF37;
   color: #D4AF37;
-  box-shadow: 0 0 16px rgba(212,175,55,0.3);
+  box-shadow: 0 0 18px rgba(212,175,55,0.35);
 }
 
-/* Scene 1 */
-#sc1 .apl {
-  width: clamp(130px, 20vw, 220px);
-  height: clamp(130px, 20vw, 220px);
-  object-fit: contain;
-  filter: drop-shadow(0 0 45px rgba(212,175,55,0.7)) drop-shadow(0 0 90px rgba(212,175,55,0.35));
-  animation: floatApple 5s ease-in-out infinite;
-  z-index: 5;
+/* Background image handling with Ken Burns */
+#intro .pic {
+  position: absolute;
+  inset: -6%;
+  opacity: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1.2s ease, transform var(--d, 10s) linear;
+  transform: scale(1.05) translate(0, 0);
+  z-index: 2;
 }
-@keyframes floatApple {
-  0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 40px rgba(212,175,55,0.65)); }
-  50% { transform: translateY(-10px) scale(1.03); filter: drop-shadow(0 0 65px rgba(212,175,55,0.9)); }
+#intro .pic.on {
+  opacity: 1;
+  transform: scale(1.16) translate(-1.5%, -1%);
+}
+#intro .pic.pan.on {
+  transform: scale(1.15) translate(2.5%, -1.5%);
+}
+#intro .pic::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%),
+              linear-gradient(to top, rgba(0,0,0,0.92) 0%, transparent 60%);
 }
 
-/* Split screen */
+/* Solar Flare Cataclysm (Extinción Isu) */
+#intro .solar-flare {
+  position: absolute;
+  inset: -25%;
+  pointer-events: none;
+  z-index: 7;
+  opacity: 0;
+  background: radial-gradient(circle at center, rgba(255,255,255,1) 0%, rgba(255,200,60,0.96) 22%, rgba(255,80,0,0.88) 48%, rgba(180,15,0,0.75) 72%, transparent 100%);
+  mix-blend-mode: screen;
+  transition: opacity 0.8s ease-in, transform 2.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: scale(0.2);
+}
+#intro .solar-flare.on {
+  opacity: 1;
+  transform: scale(1.6);
+  animation: solarPulse 1.4s infinite alternate ease-in-out;
+}
+#intro .solar-shockwave {
+  position: absolute;
+  inset: -15%;
+  border-radius: 50%;
+  border: 5px solid rgba(255,230,120,0.95);
+  box-shadow: 0 0 70px rgba(255,140,0,0.95), inset 0 0 70px rgba(255,90,0,0.85);
+  opacity: 0;
+  transform: scale(0.1);
+  pointer-events: none;
+  z-index: 8;
+  transition: opacity 0.4s ease, transform 1.8s cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+#intro .solar-shockwave.on {
+  opacity: 0.95;
+  transform: scale(1.9);
+}
+#intro .solar-burnout {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9;
+  transition: opacity 0.65s cubic-bezier(0.8, 0, 1, 1);
+}
+#intro .solar-burnout.on {
+  opacity: 0.98;
+}
+@keyframes solarPulse {
+  0% { filter: brightness(1) drop-shadow(0 0 40px #ff6600); }
+  100% { filter: brightness(1.4) drop-shadow(0 0 100px #ffcc00); }
+}
+@keyframes solarTremor {
+  0% { transform: translate(0, 0) scale(1.05); }
+  20% { transform: translate(-5px, 4px) scale(1.06); }
+  40% { transform: translate(6px, -4px) scale(1.07); }
+  60% { transform: translate(-6px, -3px) scale(1.08); }
+  80% { transform: translate(5px, 5px) scale(1.08); }
+  100% { transform: translate(0, 0) scale(1.08); }
+}
+#sc1 .pic.solar-shake {
+  animation: solarTremor 0.1s infinite !important;
+}
+
+/* Scene 3 Flash */
+#intro .flash {
+  position: absolute;
+  inset: 0;
+  background: #e8fcff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 8;
+  transition: opacity 0.35s ease-out;
+}
+#intro .flash.on {
+  opacity: 0.96;
+}
+
+/* Split screen layout */
 #intro .split {
   position: absolute;
   inset: 0;
@@ -369,152 +457,7 @@ img{max-width:100%;height:auto}
   z-index: 6;
 }
 
-/* Scene 2 */
-#sc2 .hl {
-  background: radial-gradient(circle at 60% 50%, rgba(0,240,255,0.18) 0%, rgba(2,16,20,0.95) 75%);
-}
-#sc2 .hr {
-  background: radial-gradient(circle at 40% 50%, rgba(200,16,46,0.22) 0%, rgba(20,4,6,0.95) 75%);
-}
-#sc2 .hin {
-  width: clamp(140px, 22vw, 240px);
-  height: clamp(140px, 22vw, 240px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 12s ease-out;
-}
-#sc2.active .hl .hin {
-  transform: translateY(-24px);
-}
-#sc2.active .hr .hin {
-  transform: translateY(24px);
-}
-#sc2 svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* Scene 3 & 4 Background Pics */
-#intro .pic.art {
-  position: absolute;
-  inset: -6%;
-  opacity: 0;
-  pointer-events: none;
-  background-size: cover;
-  background-position: center;
-  transition: opacity 1s ease, transform var(--d, 10s) linear;
-  transform: scale(1.05) translate(0, 0);
-  z-index: 2;
-}
-#intro .pic.art.on {
-  opacity: 1;
-  transform: scale(1.18) translate(-1.5%, -2%);
-}
-#intro .pic.art.pan.on {
-  transform: scale(1.16) translate(2.5%, -1.5%);
-}
-#intro .pic.art::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.88) 100%),
-              linear-gradient(to top, rgba(0,0,0,0.92) 0%, transparent 50%);
-}
-#intro .flash {
-  position: absolute;
-  inset: 0;
-  background: #e8fcff;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 8;
-  transition: opacity 0.35s ease-out;
-}
-#intro .flash.on {
-  opacity: 0.95;
-}
-#intro .veil.v1 {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, transparent 40%, rgba(0,240,255,0.12) 100%);
-  pointer-events: none;
-  z-index: 3;
-}
-#intro .veil.v2 {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, transparent 35%, rgba(200,16,46,0.18) 100%);
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* Scene 4 */
-#sc4 .emb {
-  width: clamp(90px, 14vw, 150px);
-  height: clamp(90px, 14vw, 150px);
-  filter: drop-shadow(0 0 30px rgba(212,175,55,0.8));
-  z-index: 5;
-  margin-bottom: 12px;
-}
-#sc4 .geo {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(212,175,55,0.15) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-  z-index: 3;
-}
-#sc4 .lab {
-  position: absolute;
-  top: 72px;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  color: #D4AF37;
-  padding: 3px 10px;
-  border: 1px solid rgba(212,175,55,0.4);
-  border-radius: 3px;
-  background: rgba(0,0,0,0.7);
-  z-index: 5;
-}
-
-/* Scene 5 */
-#sc5 .sil.art {
-  position: absolute;
-  inset: -4%;
-  opacity: 0;
-  background-size: cover;
-  background-position: center;
-  filter: grayscale(100%) brightness(25%) contrast(160%);
-  transition: opacity 1s ease, transform 8s linear;
-  transform: scale(1.05);
-  z-index: 2;
-  pointer-events: none;
-}
-#sc5 .sil.art.on {
-  opacity: 0.55;
-  transform: scale(1.14);
-}
-#sc5 .rel {
-  position: absolute;
-  max-width: clamp(180px, 32vw, 360px);
-  max-height: clamp(220px, 42vh, 440px);
-  object-fit: contain;
-  filter: drop-shadow(0 0 35px rgba(212,175,55,0.75)) drop-shadow(0 0 8px rgba(255,255,255,0.9));
-  z-index: 4;
-  top: 44%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
-  opacity: 0;
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-}
-#sc5 .rel.on {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* Scene 6: Credos */
+/* Scene 6: Credos & Bajadas */
 #sc6 .c6l {
   background: radial-gradient(circle at 60% 50%, rgba(0,240,255,0.12) 0%, rgba(2,16,20,0.95) 75%);
   border-right: 1px solid rgba(0,240,255,0.3);
@@ -525,7 +468,7 @@ img{max-width:100%;height:auto}
 }
 #sc6 .credo {
   font-family: Marcellus, Georgia, serif;
-  font-size: clamp(20px, 3.2vw, 38px);
+  font-size: clamp(20px, 3.0vw, 36px);
   line-height: 1.35;
   max-width: 440px;
   text-align: center;
@@ -540,17 +483,6 @@ img{max-width:100%;height:auto}
   color: #ff4d67;
   text-shadow: 0 0 24px rgba(200,16,46,0.85);
 }
-#sc6 .who {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.25em;
-  margin-top: 24px;
-  opacity: 0.8;
-  z-index: 5;
-}
-#sc6 .c6l .who { color: #8df7ff; }
-#sc6 .c6r .who { color: #D4AF37; }
 #sc6 .w {
   display: inline-block;
   opacity: 0;
@@ -562,64 +494,36 @@ img{max-width:100%;height:auto}
   opacity: 1;
   transform: translateY(0) scale(1);
 }
+#sc6 .bajada {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: clamp(14px, 1.6vw, 19px);
+  line-height: 1.45;
+  color: #e6ecf2;
+  max-width: 420px;
+  margin: 16px auto 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  z-index: 5;
+  text-shadow: 0 2px 12px #000;
+}
+#sc6 .bajada.on {
+  opacity: 0.92;
+  transform: translateY(0);
+}
+#sc6 .who {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  margin-top: 24px;
+  opacity: 0.8;
+  z-index: 5;
+}
+#sc6 .c6l .who { color: #8df7ff; }
+#sc6 .c6r .who { color: #D4AF37; }
 
 /* Scene 7: Choque */
-#sc7 .h7l {
-  background: rgba(0,240,255,0.15);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-#sc7 .h7r {
-  background: rgba(200,16,46,0.2);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-#sc7.active .h7l { transform: translateX(20px); }
-#sc7.active .h7r { transform: translateX(-20px); }
-#sc7 .crack {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 24px;
-  height: 100%;
-  transform: translateX(-50%);
-  z-index: 7;
-  filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #00F0FF);
-}
-#sc7 .ap7 {
-  position: relative;
-  width: clamp(140px, 22vw, 240px);
-  height: clamp(140px, 22vw, 240px);
-  z-index: 8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#sc7 .ap7 img.apple {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-#sc7 .ap7 img.g1 {
-  mix-blend-mode: screen;
-  filter: drop-shadow(-8px 0 0 rgba(255,0,0,0.9));
-  animation: glitch1 0.25s infinite steps(2);
-}
-#sc7 .ap7 img.g2 {
-  mix-blend-mode: screen;
-  filter: drop-shadow(8px 0 0 rgba(0,240,255,0.9));
-  animation: glitch2 0.3s infinite steps(2);
-}
-@keyframes glitch1 {
-  0% { transform: translate(-3px, 2px) skewX(2deg); }
-  50% { transform: translate(4px, -1px) skewX(-2deg); }
-  100% { transform: translate(-1px, -2px); }
-}
-@keyframes glitch2 {
-  0% { transform: translate(3px, -2px) skewX(-2deg); }
-  50% { transform: translate(-4px, 2px) skewX(3deg); }
-  100% { transform: translate(2px, 1px); }
-}
 #sc7 .cutb {
   position: absolute;
   inset: 0;
@@ -641,6 +545,10 @@ img{max-width:100%;height:auto}
   margin-bottom: 12px;
   z-index: 5;
 }
+@keyframes floatApple {
+  0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 40px rgba(212,175,55,0.65)); }
+  50% { transform: translateY(-10px) scale(1.03); filter: drop-shadow(0 0 65px rgba(212,175,55,0.9)); }
+}
 #sc8 h2.b8 {
   font-size: clamp(22px, 3.8vw, 42px);
   color: #fff;
@@ -648,8 +556,11 @@ img{max-width:100%;height:auto}
 }
 #sc8 p.s8 {
   color: #00F0FF;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.08em;
   margin-bottom: 24px;
+  max-width: 720px;
+  line-height: 1.5;
+  font-size: clamp(15px, 1.8vw, 20px);
 }
 #sc8 .act {
   display: flex;
@@ -890,93 +801,66 @@ img{max-width:100%;height:auto}
   <canvas id="inCv"></canvas>
   <div class="scanl"></div>
 
-  <!-- Scene 1: Apertura (0:00 - 0:15) -->
+  <!-- Scene 1: El Origen & La Gran Catástrofe Isu (0:00 - 0:15) -->
   <section class="sc" id="sc1">
-    <img class="apl cu apple" data-in="0" alt="Manzana del Edén">
-    <h2 class="big cu" data-in="1.5">¿LIBERTAD U ORDEN?</h2>
-    <p class="sub cu" data-in="5.5">Dos visiones. Una misma herencia.</p>
+    <div class="pic cu" data-in="0" style="background-image: url('imagenes-intro/01-isu-origen.jpg');"></div>
+    <div class="solar-flare cu" data-in="10.8" data-out="14.8"></div>
+    <div class="solar-shockwave cu" data-in="11.5" data-out="14.5"></div>
+    <div class="solar-burnout cu" data-in="13.8" data-out="14.9"></div>
+    <h2 class="big cu" data-in="1.5" data-out="10.2">ANTES DE LA HUMANIDAD, EXISTIERON LOS ISU.</h2>
+    <p class="sub cu" data-in="5.0" data-out="10.2">Una Primera Civilización extinguida que dejó tras de sí reliquias de poder absoluto.</p>
+    <p class="cap cu" data-in="10.0" data-out="13.8" style="font-size:clamp(18px,2.4vw,28px);font-weight:600;color:#ffd700;text-shadow:0 0 25px rgba(255,140,0,0.95);">
+      ¿LIBERTAD U ORDEN?<br><span style="font-size:0.85em;color:#fff;font-weight:400;">De esa herencia nació una guerra secreta.</span>
+    </p>
   </section>
 
   <!-- Scene 2: La Fractura (0:15 - 0:30) -->
   <section class="sc" id="sc2">
-    <div class="split">
-      <div class="half hl">
-        <div class="hin">
-          <svg viewBox="0 0 200 260" aria-hidden="true">
-            <defs>
-              <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#e8fcff"/>
-                <stop offset="1" stop-color="#00F0FF" stop-opacity=".3"/>
-              </linearGradient>
-            </defs>
-            <path fill="url(#hg)" d="M100 8C72 8 56 38 56 68c0 22-14 40-30 84l-4 100h156l-4-100c-16-44-30-62-30-84 0-30-16-60-44-60z"/>
-            <path fill="#021014" d="M100 52c-20 0-32 16-32 38 0 24 14 40 32 40s32-16 32-40c0-22-12-38-32-38z"/>
-          </svg>
-        </div>
-      </div>
-      <div class="half hr">
-        <div class="hin">
-          <svg viewBox="0 0 200 200" aria-hidden="true">
-            <polygon fill="#C8102E" stroke="#D4AF37" stroke-width="5" stroke-linejoin="round" points="80,5 120,5 106,62 138,94 195,80 195,120 138,106 106,138 120,195 80,195 94,138 62,106 5,120 5,80 62,94 94,62"/>
-          </svg>
-        </div>
-      </div>
-    </div>
+    <div class="pic cu" data-in="0" data-out="8.0" style="background-image: url('imagenes-intro/02-fractura-personajes.jpg');"></div>
+    <div class="pic cu" data-in="7.8" style="background-image: url('imagenes-intro/02-emblemas-guerra.jpg');"></div>
     <div class="mid"></div>
-    <p class="cap cu" data-in="2">Durante milenios, dos fuerzas ocultas han moldeado el destino de la humanidad desde las sombras.</p>
+    <p class="cap cu" data-in="1.5" data-out="8.0">Durante milenios, dos sociedades clandestinas han disputado el destino de la humanidad desde las sombras.</p>
+    <p class="cap cu" data-in="8.5">El libre albedrío frente al control. Dos respuestas irreconciliables al caos de la naturaleza humana.</p>
   </section>
 
   <!-- Scene 3: Los Ocultos (0:30 - 0:50) -->
   <section class="sc" id="sc3">
-    <div class="pic art kb pan cu" data-in="0" data-out="10.5" data-k="or" style="--d:11s"></div>
-    <div class="flash cu" data-in="9.8" data-out="10.6"></div>
-    <div class="pic art kb cu" data-in="10" data-k="ac1" style="--d:10s"></div>
-    <div class="veil v1"></div>
+    <div class="pic cu pan" data-in="0" data-out="10.0" style="background-image: url('imagenes-intro/03-bayek-aya-egipto.jpg'); --d:11s;"></div>
+    <div class="flash cu" data-in="9.7" data-out="10.4"></div>
+    <div class="pic cu" data-in="10.0" style="background-image: url('imagenes-intro/03-altair-masyaf.jpg'); --d:10s;"></div>
     <p class="tag t1">03 · ASESINOS</p>
-    <p class="cap cu" data-in="1" data-out="9.8">49 a.C. — Egipto. Bayek y Aya fundan Los Ocultos para proteger el libre albedrío.</p>
-    <p class="cap cu" data-in="11.5">Siglos después, Altaïr reformará la Hermandad.</p>
+    <p class="cap cu" data-in="1.0" data-out="9.7">49 a.C. — Egipto. Tras abatir a los tiranos de Alejandría, Bayek y Aya fundan Los Ocultos: guardianes en la oscuridad dedicados a proteger el derecho a elegir.</p>
+    <p class="cap cu" data-in="11.5">Siglo XII — Masyaf. Guiado por la sabiduría de la Manzana, Altaïr Ibn-La’Ahad derriba los viejos dogmas y refunda una Hermandad global.</p>
   </section>
 
   <!-- Scene 4: La Orden (0:50 - 1:10) -->
-  <section class="sc" id="sc4">
-    <div class="pic art kb cu" data-in="0" data-out="6.5" data-k="od" style="--d:7s"></div>
-    <div class="pic art kb pan cu" data-in="6" data-out="12.5" data-k="mi" style="--d:7s"></div>
-    <div class="pic art kb cu" data-in="12" data-k="va" style="--d:8s"></div>
-    <div class="veil v2"></div>
-    <div class="geo cu" data-in="12.5"></div>
-    <svg class="emb cu" data-in="13" viewBox="0 0 200 200" aria-hidden="true">
-      <polygon fill="#C8102E" stroke="#D4AF37" stroke-width="4" stroke-linejoin="round" points="80,5 120,5 106,62 138,94 195,80 195,120 138,106 106,138 120,195 80,195 94,138 62,106 5,120 5,80 62,94 94,62"/>
-    </svg>
+  <section class="sc red" id="sc4">
+    <div class="pic cu" data-in="0" style="background-image: url('imagenes-intro/04-orden-templarios.jpg'); --d:20s;"></div>
     <p class="tag t2">04 · TEMPLARIOS</p>
-    <p class="lab cu" data-in="0.8" data-out="6">CULTO DE KOSMOS</p>
-    <p class="lab cu" data-in="6.8" data-out="12">ORDEN DE LOS ANTIGUOS</p>
-    <p class="lab cu" data-in="12.8">ALFREDO EL GRANDE</p>
-    <p class="cap cu" data-in="1" data-out="12">Del Culto de Kosmos a la Orden de los Antiguos: el control absoluto como camino hacia la paz.</p>
-    <p class="cap cu" data-in="13.5">En el siglo IX, Alfredo el Grande purga la Orden y siembra la semilla de los Caballeros Templarios.</p>
+    <p class="cap cu" data-in="1.0" data-out="12.0">Del Culto de Kosmos en Grecia a la Orden de los Antiguos en Egipto y Bagdad: manipular imperios y linajes para imponer la paz mediante la obediencia.</p>
+    <p class="cap cu" data-in="13.5">878 d.C. — Inglaterra. El rey Alfredo el Grande purga la antigua Orden pagana y siembra una nueva cruzada: los Caballeros Templarios.</p>
   </section>
 
   <!-- Scene 5: Las Reliquias (1:10 - 1:30) -->
   <section class="sc" id="sc5">
-    <div class="sil art cu" data-in="0" data-out="6.8" data-k="ac2"></div>
-    <div class="sil art cu" data-in="6.5" data-out="13.3" data-k="bf"></div>
-    <div class="sil art cu" data-in="13" data-k="ro"></div>
-    <img class="rel cu" data-in="0" data-out="6.8" data-s="0" alt="Báculo Papal">
-    <img class="rel cu" data-in="6.5" data-out="13.3" data-s="3" alt="Espada del Templo">
-    <img class="rel cu" data-in="13" data-s="17" alt="Caja de los Precursores">
+    <div class="pic cu" data-in="0" style="background-image: url('imagenes-intro/05-reliquias-fragmentos.jpg'); --d:20s;"></div>
     <p class="tag t2 cu" data-in="0.2">05 · LOS FRAGMENTOS</p>
-    <p class="cap cu low" data-in="0.5" data-out="10.5">El verdadero campo de batalla: los Fragmentos del Edén.</p>
-    <p class="cap cu low" data-in="11">Tecnología de la Primera Civilización capaz de someter o liberar mentes.</p>
+    <p class="cap cu low" data-in="0.5" data-out="10.0">El verdadero campo de batalla: los Fragmentos del Edén. Tecnología precursora diseñada para someter mentes, alterar la materia y abrir bóvedas ancestrales.</p>
+    <p class="cap cu low" data-in="10.5">De las criptas del Vaticano a los templos sísmicos del Atlántico: quien domina una reliquia, reescribe la historia.</p>
   </section>
 
   <!-- Scene 6: Los Credos (1:30 - 1:50) -->
   <section class="sc" id="sc6">
-    <div class="split">
+    <div class="pic cu" data-in="0" style="background-image: url('imagenes-intro/06-credos-split-bg.jpg'); opacity: 0.45;"></div>
+    <div class="split" style="z-index: 4;">
       <div class="half c6l">
         <p class="credo" data-words="«NADA ES VERDAD, TODO ESTÁ PERMITIDO.»"></p>
+        <p class="bajada cu" data-in="6.8">Somos arquitectos de nuestros propios actos y responsables de sus consecuencias.</p>
         <p class="who">ASESINOS</p>
       </div>
       <div class="half c6r">
-        <p class="credo" data-words="«QUE EL PADRE DEL ENTENDIMIENTO NOS GUÍE.»" data-o="8"></p>
+        <p class="credo" data-words="«QUE EL PADRE DEL ENTENDIMIENTO NOS GUÍE.»" data-o="8.2"></p>
+        <p class="bajada cu" data-in="14.5">Solo mediante la dirección y el orden puede salvarse la humanidad de sí misma.</p>
         <p class="who">TEMPLARIOS</p>
       </div>
     </div>
@@ -985,19 +869,9 @@ img{max-width:100%;height:auto}
 
   <!-- Scene 7: El Choque (1:50 - 2:05) -->
   <section class="sc" id="sc7">
-    <div class="split">
-      <div class="half h7l"></div>
-      <div class="half h7r"></div>
-    </div>
-    <svg class="crack cu" data-in="0.3" viewBox="0 0 20 100" preserveAspectRatio="none" aria-hidden="true">
-      <polyline fill="none" stroke="#fff" stroke-width="1.4" points="10,0 7,12 13,24 6,38 14,52 7,66 13,80 9,100"/>
-    </svg>
-    <div class="ap7 cu" data-in="4.2" data-out="14.1">
-      <img class="apple" alt="">
-      <img class="apple g1" alt="">
-      <img class="apple g2" alt="">
-    </div>
-    <p class="cap cu" data-in="5.5" data-out="14">Sin vencedores definitivos. La guerra continúa en cada época.</p>
+    <div class="pic cu" data-in="0" style="background-image: url('imagenes-intro/07-choque-manzana-glitch.jpg');"></div>
+    <p class="cap cu" data-in="1.0" data-out="5.0" style="font-size:clamp(22px,3.2vw,38px);font-family:Marcellus,serif;color:#00F0FF;text-shadow:0 0 25px rgba(0,240,255,0.85);">Dos filosofías. Un mismo tablero.</p>
+    <p class="cap cu" data-in="5.5" data-out="14.0">Los imperios caen y los siglos cambian, pero mientras quede un Fragmento oculto, esta guerra jamás tendrá un vencedor definitivo.</p>
     <div class="cutb cu" data-in="14.2"></div>
   </section>
 
@@ -1005,7 +879,7 @@ img{max-width:100%;height:auto}
   <section class="sc" id="sc8">
     <img class="ap8 apple cu" data-in="0" alt="Manzana del Edén">
     <h2 class="big b8 cu" data-in="0.8">BASE DE DATOS DE LA PRIMERA CIVILIZACIÓN</h2>
-    <p class="sub s8 cu" data-in="2.2">Sincronización completa.</p>
+    <p class="sub s8 cu" data-in="2.0">Sincronización completa. Accede a las crónicas del conflicto o examina los artefactos recuperados.</p>
     <div class="act cu" data-in="3.5">
       <button type="button" class="bA" id="inGoT">EXPLORAR CRONOLOGÍA</button>
       <button type="button" class="bG" id="inGoF">VER FRAGMENTOS DEL EDÉN</button>
@@ -1036,7 +910,6 @@ img{max-width:100%;height:auto}
     <source src="musica-intro.mp3" type="audio/mpeg">
   </audio>
 </div>
-
 <header>
   <h1>Assassin’s Creed<br>cronología</h1>
   <p>Dos mil años de guerra secreta entre Asesinos y Templarios. Cada punto de la hélice es un recuerdo. Arrastra para girarla y toca un punto para revivirlo.</p>
@@ -1308,7 +1181,7 @@ $("cventer").onclick=function(){enterDB()};
 })();
 
 /* ==========================================================================
-   ANIMUS INTRO CINEMATIC PLAYER ENGINE
+   ANIMUS INTRO CINEMATIC PLAYER ENGINE - SOLAR FLARE EDITION
    ========================================================================== */
 (function() {
   var IN_DUR = 135; // 2:15 in seconds
@@ -1329,7 +1202,7 @@ $("cventer").onclick=function(){enterDB()};
   var inCv = $("inCv"), inCx = inCv ? inCv.getContext("2d") : null;
   var inSegEls = [];
 
-  // Setup kinetic typography for Scene 6
+  // Kinetic typography setup for Scene 6
   document.querySelectorAll("#sc6 .credo").forEach(function(el) {
     var raw = el.dataset.words || "";
     var offset = parseFloat(el.dataset.o || 0);
@@ -1339,17 +1212,9 @@ $("cventer").onclick=function(){enterDB()};
     }).join(" ");
   });
 
-  // Assign image sources from main page
+  // Assign apple image source to Scene 8
   var apSrc = $("appleimg") ? $("appleimg").src : "";
   document.querySelectorAll("#intro .apple").forEach(function(im) { im.src = apSrc; });
-  document.querySelectorAll("#intro .rel").forEach(function(im) {
-    var s = im.dataset.s;
-    if (s && window.SI && window.SI[s]) im.src = window.SI[s].src;
-    else {
-      var el = $("sImg" + s);
-      if (el) im.src = el.src;
-    }
-  });
 
   // Build segmented progress bar
   IN_CH.forEach(function(c, i) {
@@ -1376,8 +1241,8 @@ $("cventer").onclick=function(){enterDB()};
     return m + ":" + (s < 10 ? "0" : "") + s;
   }
 
-  // Audio Synthesizer (Web Audio API fallback + MP3 support)
-  var aCtx = null, droneGain = null, pulseGain = null, isSoundOn = false;
+  // Audio Synthesizer (Web Audio API with Solar Flare filter modulation)
+  var aCtx = null, droneGain = null, droneFilter = null, isSoundOn = false;
   function initAudio() {
     if (aCtx) return;
     try {
@@ -1386,17 +1251,17 @@ $("cventer").onclick=function(){enterDB()};
       aCtx = new AC();
       var osc1 = aCtx.createOscillator();
       var osc2 = aCtx.createOscillator();
-      var filter = aCtx.createBiquadFilter();
+      droneFilter = aCtx.createBiquadFilter();
       droneGain = aCtx.createGain();
 
       osc1.type = "sine"; osc1.frequency.value = 55;
       osc2.type = "sawtooth"; osc2.frequency.value = 110;
-      filter.type = "lowpass"; filter.frequency.value = 180;
+      droneFilter.type = "lowpass"; droneFilter.frequency.value = 180;
       droneGain.gain.value = 0.08;
 
-      osc1.connect(filter);
-      osc2.connect(filter);
-      filter.connect(droneGain);
+      osc1.connect(droneFilter);
+      osc2.connect(droneFilter);
+      droneFilter.connect(droneGain);
       droneGain.connect(aCtx.destination);
 
       osc1.start(); osc2.start();
@@ -1430,11 +1295,11 @@ $("cventer").onclick=function(){enterDB()};
     cvW = inCv.width = window.innerWidth;
     cvH = inCv.height = window.innerHeight;
     parts = [];
-    for (var i = 0; i < 65; i++) {
+    for (var i = 0; i < 70; i++) {
       parts.push({
         x: Math.random() * cvW,
         y: Math.random() * cvH,
-        r: 1 + Math.random() * 2.2,
+        r: 1 + Math.random() * 2.4,
         vx: (Math.random() - 0.5) * 0.4,
         vy: -0.3 - Math.random() * 0.7,
         a: 0.2 + Math.random() * 0.6
@@ -1447,6 +1312,27 @@ $("cventer").onclick=function(){enterDB()};
   function drawCanvas(chIdx, tRel) {
     if (!inCx || !cvW) return;
     inCx.clearRect(0, 0, cvW, cvH);
+
+    // Chapter 1: Solar Flare Embers & Plasma Burst (10.8s - 14.8s)
+    if (chIdx === 0 && tRel >= 10.5) {
+      var flareIntensity = Math.min(1, (tRel - 10.5) / 3.0);
+      var numSparks = 20 + Math.floor(flareIntensity * 50);
+      for (var s = 0; s < numSparks; s++) {
+        var ang = Math.random() * Math.PI * 2;
+        var dist = Math.random() * (cvW / 2) * (flareIntensity * 1.2);
+        var sx = cvW / 2 + Math.cos(ang) * dist;
+        var sy = cvH / 2 + Math.sin(ang) * dist;
+        var sr = 1.5 + Math.random() * 4.5 * flareIntensity;
+        inCx.beginPath();
+        inCx.arc(sx, sy, sr, 0, Math.PI * 2);
+        inCx.fillStyle = Math.random() > 0.4 ? "rgba(255,180,20,0.85)" : "rgba(255,60,0,0.9)";
+        inCx.shadowColor = "#ffaa00";
+        inCx.shadowBlur = 12;
+        inCx.fill();
+      }
+      inCx.shadowBlur = 0;
+      return;
+    }
 
     // Chapter 6: Animus Hex Rain
     if (chIdx === 5) {
@@ -1461,22 +1347,21 @@ $("cventer").onclick=function(){enterDB()};
       return;
     }
 
-    // Chapter 7: Digital glitch slice displacement
-    if (chIdx === 6 && tRel > 3) {
+    // Chapter 7: Glitch lines
+    if (chIdx === 6 && tRel > 2) {
       if (Math.random() > 0.4) {
-        var numBands = 3 + Math.floor(Math.random() * 5);
+        var numBands = 3 + Math.floor(Math.random() * 6);
         for (var b = 0; b < numBands; b++) {
           var by = Math.random() * cvH;
-          var bh = 4 + Math.random() * 18;
-          var rgb = Math.random() > 0.5 ? "rgba(0,240,255,0.3)" : "rgba(255,0,40,0.35)";
-          inCx.fillStyle = rgb;
+          var bh = 4 + Math.random() * 20;
+          inCx.fillStyle = Math.random() > 0.5 ? "rgba(0,240,255,0.35)" : "rgba(255,0,40,0.38)";
           inCx.fillRect(0, by, cvW, bh);
         }
       }
       return;
     }
 
-    // Standard floating embers / data particles
+    // Standard floating particles
     var colMode = (chIdx === 0 || chIdx === 7) ? "gold" : (chIdx === 2 ? "cyan" : (chIdx === 3 ? "crimson" : "gold"));
     for (var i = 0; i < parts.length; i++) {
       var p = parts[i];
@@ -1548,6 +1433,21 @@ $("cventer").onclick=function(){enterDB()};
           var dout = parseFloat(cu.dataset.out || 9999);
           cu.classList.toggle("on", tRel >= din && tRel < dout);
         });
+
+        // Scene 1: Solar tremor effect on background
+        if (c.id === "sc1") {
+          var picEl = scEl.querySelector(".pic");
+          if (picEl) picEl.classList.toggle("solar-shake", tRel >= 10.8 && tRel < 14.8);
+          // Modulate audio filter for solar flare roar
+          if (isSoundOn && droneFilter && aCtx) {
+            if (tRel >= 10.8 && tRel < 14.5) {
+              var fAmt = (tRel - 10.8) / 3.7;
+              droneFilter.frequency.setTargetAtTime(180 + fAmt * 1600, aCtx.currentTime, 0.2);
+            } else {
+              droneFilter.frequency.setTargetAtTime(180, aCtx.currentTime, 0.4);
+            }
+          }
+        }
 
         // Kinetic typography in Scene 6
         if (c.id === "sc6") {
@@ -1678,13 +1578,11 @@ $("cventer").onclick=function(){enterDB()};
       if (inPlaying) pause(); else play();
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
-      // Next chapter
       for (var i = 0; i < IN_CH.length; i++) {
         if (IN_CH[i].s > inCurTime + 0.5) { seekTo(IN_CH[i].s); break; }
       }
     } else if (e.key === "ArrowLeft") {
       e.preventDefault();
-      // Prev chapter
       for (var j = IN_CH.length - 1; j >= 0; j--) {
         if (IN_CH[j].s < inCurTime - 1.5) { seekTo(IN_CH[j].s); break; }
         else if (j === 0) { seekTo(0); }
@@ -1694,10 +1592,8 @@ $("cventer").onclick=function(){enterDB()};
     }
   });
 
-  // Expose globally if needed
   window.openAnimusIntro = openIntro;
 })();
-
 </script>
 </body>
 </html>

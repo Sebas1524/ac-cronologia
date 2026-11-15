@@ -20,10 +20,11 @@ header,.modes{position:relative;z-index:1;pointer-events:none;text-shadow:0 1px 
 header{padding:28px 24px 0;max-width:560px}
 h1{font:400 clamp(30px,4.6vw,52px)/1.05 Marcellus,Georgia,serif;margin:0 0 10px;letter-spacing:.02em}
 header p{margin:0;color:var(--text);opacity:.85;max-width:46ch;font-size:16px;line-height:1.5}
-.modes{display:flex;gap:8px;padding:16px 24px 0}
+.modes{display:flex;flex-direction:column;align-items:flex-start;gap:9px;padding:16px 24px 0;max-width:260px}
 @media (max-height:520px){header p{display:none}}
-.modes button{pointer-events:auto;background:rgba(11,17,23,.55);background:color-mix(in srgb,var(--bg) 55%,transparent);border:1px solid var(--line);color:var(--mute);padding:6px 14px;border-radius:999px;font:inherit;font-size:15px;cursor:pointer}
-.modes button[aria-pressed="true"]{color:var(--text);border-color:var(--a)}
+.modes button{pointer-events:auto;background:rgba(11,17,23,.75);background:color-mix(in srgb,var(--bg) 75%,transparent);border:1px solid var(--line);color:var(--mute);padding:7px 16px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer;white-space:nowrap;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .2s ease;box-shadow:0 3px 12px rgba(0,0,0,0.4)}
+.modes button:hover{color:var(--text);border-color:var(--a);transform:translateX(3px)}
+.modes button[aria-pressed="true"]{color:var(--text);border-color:var(--a);background:rgba(201,214,228,0.12)}
 .track{overflow-x:auto;margin-top:28px;padding:0 24px 8px;scrollbar-width:thin}
 .rail{display:flex;gap:0;min-width:max-content;max-width:960px;margin:0 auto;position:relative}
 .rail::before{content:"";position:absolute;left:0;right:0;top:34px;height:1px;background:var(--line)}
@@ -89,7 +90,7 @@ main{max-width:960px;margin:0 auto;padding:0 24px 64px}
 #dbox p b{color:var(--a);font:400 19px Marcellus,serif}
 #dbox li b{color:var(--a);font-weight:600}
 #fragBtn{border-color:#d9a441!important;color:#d9a441!important}
-.modes{flex-wrap:wrap}
+.modes{flex-direction:column;align-items:flex-start}
 #frag{position:fixed;inset:0;z-index:6;overflow-y:auto;color:#dfe9f2;font-family:Rajdhani,"Source Sans 3",sans-serif;background:radial-gradient(70% 40% at 50% 0%,rgba(25,195,230,.14),transparent 70%),linear-gradient(#071420,#050d15)}
 #frag[hidden]{display:none}
 #fbox{max-width:1180px;margin:0 auto;padding:0 clamp(14px,3vw,28px) 70px}
@@ -173,8 +174,8 @@ img{max-width:100%;height:auto}
   header{padding:18px 16px 0}
   h1{font-size:clamp(26px,6vw,38px);margin:0 0 6px}
   header p{font-size:14px;line-height:1.4;max-width:95%}
-  .modes{padding:10px 16px 0;gap:6px}
-  .modes button{font-size:13px;padding:6px 11px}
+  .modes{padding:10px 16px 0;gap:7px;max-width:240px}
+  .modes button{font-size:12px;padding:6px 13px}
   #enter{padding:10px 22px;font-size:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px))}
   .cvhero{width:min(260px,68vw)}
   .ftop{flex-wrap:wrap;gap:8px}
@@ -1383,7 +1384,7 @@ img{max-width:100%;height:auto}
     <div class="act cu" data-in="3.5">
       <button type="button" class="bA" id="inGoT">EXPLORAR CRONOLOGÍA</button>
       <button type="button" class="bG" id="inGoF">VER FRAGMENTOS DEL EDÉN</button>
-      <button type="button" class="bJoin" id="inGoJoin">⚡ UNIRSE A UN BANDO</button>
+      <button type="button" class="bJoin" id="inGoJoin">UNIRSE A UN BANDO</button>
       <button type="button" class="bReplay" id="inReplay">⟲ REPETIR INICIACIÓN</button>
     </div>
   </section>
@@ -1520,9 +1521,11 @@ img{max-width:100%;height:auto}
   <h1>Assassin’s Creed<br>cronología</h1>
   <p>Dos mil años de guerra secreta entre Asesinos y Templarios. Cada punto de la hélice es un recuerdo. Arrastra para girarla y toca un punto para revivirlo.</p>
 </header>
-<div class="modes" role="group" aria-label="Orden">
-  <button type="button" id="mHist" aria-pressed="true">Orden histórico</button>
-  <button type="button" id="mRel" aria-pressed="false">Orden de lanzamiento</button><button type="button" id="fragBtn">Fragmentos del Edén</button><button type="button" id="inBtn">▶ Cinemática (2:15)</button><button type="button" id="joinBtn">⚡ Unirse a un Bando</button>
+<div class="modes" role="group" aria-label="Navegación y Orden">
+  <button type="button" id="mRel" aria-pressed="true">Orden de lanzamiento</button>
+  <button type="button" id="fragBtn">Fragmentos del Edén</button>
+  <button type="button" id="inBtn">▶ Cinemática (2:15)</button>
+  <button type="button" id="joinBtn">Unirse a un Bando</button>
 </div>
 <div class="helix"><canvas id="dna" tabindex="0" role="img" aria-label="Hélice de ADN con un punto por cada juego. Arrastra para girar, toca un punto para elegir."></canvas></div>
 <button type="button" id="enter">Entrar al recuerdo</button>
@@ -1546,7 +1549,7 @@ var G=[
 {k:"un",y:"1789",n:1789,t:"Assassin’s Creed Unity",who:"Arno Dorian",w:"París, Revolución Francesa",r:2014,c:"#b9a0cf",s:"Arno busca redención entre Asesinos y Templarios mientras la ciudad se desmorona en plena Revolución.",m:""},
 {k:"sy",y:"1868",n:1868,t:"Assassin’s Creed Syndicate",who:"Jacob y Evie Frye",w:"Londres victoriana",r:2015,c:"#d0843a",s:"Dos hermanos asesinos liberan Londres del control templario de Crawford Starrick durante la Revolución Industrial.",m:""}
 ];
-var mode="hist",cur=0,list=[];
+var mode="rel",cur=0,list=[];
 var $=function(i){return document.getElementById(i)};
 function order(){list=G.slice().sort(function(a,b){return mode==="hist"?a.n-b.n:a.r-b.r||a.n-b.n})}
 function build(){
@@ -1571,17 +1574,19 @@ function show(i){
 }
 function setMode(m){
   var k=list[cur]?list[cur].k:"ac1";mode=m;
-  $("mHist").setAttribute("aria-pressed",m==="hist");$("mRel").setAttribute("aria-pressed",m==="rel");
+  var bHist = $("mHist"), bRel = $("mRel");
+  if(bHist) bHist.setAttribute("aria-pressed",m==="hist");
+  if(bRel) bRel.setAttribute("aria-pressed",m==="rel");
   order();build();
   show(Math.max(0,list.map(function(g){return g.k}).indexOf(k)));
 }
-$("mHist").onclick=function(){setMode("hist")};
-$("mRel").onclick=function(){setMode("rel")};
+if($("mHist")) $("mHist").onclick=function(){setMode("hist")};
+if($("mRel")) $("mRel").onclick=function(){setMode("rel")};
 document.addEventListener("keydown",function(e){
   if(e.key==="ArrowLeft"&&cur>0)show(cur-1);
   if(e.key==="ArrowRight"&&cur<list.length-1)show(cur+1);
 });
-order();build();show(4);
+order();build();show(0);
 var D={
 };
 

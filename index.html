@@ -761,6 +761,506 @@ img{max-width:100%;height:auto}
   flex-shrink: 0;
 }
 
+/* ==========================================================================
+   INITIATION & ID CARD GENERATOR (ANIMUS & ABSTERGO)
+   ========================================================================== */
+#initModal {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  background: rgba(3, 6, 10, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  color: #e6ecf2;
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#initModal[hidden] {
+  display: none !important;
+}
+.init-box {
+  width: 100%;
+  max-width: 1050px;
+  background: #090e15;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  box-shadow: 0 0 60px rgba(0,0,0,0.9), 0 0 35px rgba(0,240,255,0.15);
+  position: relative;
+  overflow: hidden;
+  margin: auto;
+}
+.init-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(18,26,36,0) 50%, rgba(0,0,0,0.3) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 1;
+}
+.init-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.45);
+  position: relative;
+  z-index: 2;
+}
+.init-tag {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #00F0FF;
+  text-transform: uppercase;
+}
+.init-title h2 {
+  margin: 4px 0 0;
+  font: 400 clamp(18px, 2.4vw, 24px) 'Marcellus', Georgia, serif;
+  letter-spacing: 0.06em;
+  color: #fff;
+}
+.init-close {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #c9d6e4;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.init-close:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border-color: #fff;
+}
+.init-step {
+  display: none;
+  padding: 28px 24px 32px;
+  position: relative;
+  z-index: 2;
+}
+.init-step.active {
+  display: block;
+  animation: initFade 0.4s ease;
+}
+@keyframes initFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.init-intro {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 28px;
+  font-size: clamp(15px, 1.8vw, 17px);
+  color: #8d9bad;
+  line-height: 1.5;
+}
+.init-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.init-card {
+  background: rgba(14,21,30,0.85);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 28px 22px 22px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.init-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.card-assassin::before {
+  background: linear-gradient(90deg, #00F0FF, #fff);
+}
+.card-templar::before {
+  background: linear-gradient(90deg, #D4AF37, #C8102E);
+}
+.card-assassin:hover {
+  border-color: #00F0FF;
+  box-shadow: 0 0 35px rgba(0,240,255,0.3);
+  transform: translateY(-4px);
+}
+.card-templar:hover {
+  border-color: #D4AF37;
+  box-shadow: 0 0 35px rgba(212,175,55,0.3), 0 0 25px rgba(200,16,46,0.3);
+  transform: translateY(-4px);
+}
+.card-crest {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+.card-assassin .card-crest {
+  background: rgba(0,240,255,0.1);
+  border: 1px solid rgba(0,240,255,0.4);
+}
+.card-templar .card-crest {
+  background: rgba(200,16,46,0.15);
+  border: 1px solid rgba(212,175,55,0.4);
+}
+.init-card:hover .card-crest {
+  transform: scale(1.1);
+}
+.crest-svg {
+  width: 38px;
+  height: 38px;
+}
+.init-card h3 {
+  font: 400 19px 'Marcellus', Georgia, serif;
+  letter-spacing: 0.08em;
+  margin: 0 0 6px;
+}
+.card-assassin h3 { color: #00F0FF; }
+.card-templar h3 { color: #D4AF37; }
+.card-motto {
+  display: block;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+.card-assassin .card-motto { color: #8df7ff; }
+.card-templar .card-motto { color: #ff6b7e; }
+.card-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #c9d6e4;
+  margin-bottom: 14px;
+  flex-grow: 1;
+}
+.card-tenets {
+  text-align: left;
+  font-size: 13px;
+  color: #8d9bad;
+  padding-left: 18px;
+  margin: 0 0 18px;
+  line-height: 1.5;
+}
+.btn-choose {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  width: 100%;
+}
+.btn-assassin {
+  background: rgba(0,240,255,0.12);
+  border-color: #00F0FF;
+  color: #00F0FF;
+}
+.card-assassin:hover .btn-assassin {
+  background: #00F0FF;
+  color: #000;
+  box-shadow: 0 0 20px rgba(0,240,255,0.6);
+}
+.btn-templar {
+  background: rgba(200,16,46,0.18);
+  border-color: #D4AF37;
+  color: #D4AF37;
+}
+.card-templar:hover .btn-templar {
+  background: linear-gradient(90deg, #D4AF37, #C8102E);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(212,175,55,0.6);
+}
+
+/* Step 2: Form & Live Preview */
+.step2-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.btn-back {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #8d9bad;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-back:hover {
+  border-color: #fff;
+  color: #fff;
+}
+.step2-badge {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 6px 16px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+.step2-badge.assassin {
+  background: rgba(0,240,255,0.12);
+  border: 1px solid #00F0FF;
+  color: #00F0FF;
+  box-shadow: 0 0 12px rgba(0,240,255,0.3);
+}
+.step2-badge.templar {
+  background: rgba(200,16,46,0.18);
+  border: 1px solid #D4AF37;
+  color: #D4AF37;
+  box-shadow: 0 0 12px rgba(212,175,55,0.3);
+}
+
+.step2-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .step2-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.step2-form {
+  background: rgba(14,21,30,0.7);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.form-title {
+  font: 600 15px 'Rajdhani', sans-serif;
+  letter-spacing: 0.16em;
+  color: #fff;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 8px;
+}
+.step2-form label {
+  font-size: 12px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #8d9bad;
+  text-transform: uppercase;
+  margin-bottom: -4px;
+}
+.step2-form input[type="text"],
+.step2-form select {
+  background: #0d141e;
+  border: 1px solid #2a3646;
+  color: #fff;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.step2-form input[type="text"]:focus,
+.step2-form select:focus {
+  border-color: #00F0FF;
+}
+.photo-upload-zone {
+  border: 1.5px dashed rgba(255,255,255,0.22);
+  border-radius: 6px;
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  background: rgba(0,0,0,0.3);
+  position: relative;
+}
+.photo-upload-zone:hover {
+  border-color: #00F0FF;
+  background: rgba(0,240,255,0.06);
+}
+.photo-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #8d9bad;
+}
+.photo-prompt .upload-icon {
+  font-size: 22px;
+}
+.photo-prompt small {
+  font-size: 11px;
+  opacity: 0.7;
+}
+.photo-preview-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.photo-preview-wrap img {
+  width: 55px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1.5px solid #00F0FF;
+}
+.btn-clear-photo {
+  background: rgba(200,16,46,0.3);
+  border: 1px solid #C8102E;
+  color: #fff;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.filter-controls {
+  font-size: 12px;
+  color: #c9d6e4;
+  margin-top: 2px;
+}
+.filter-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-transform: none;
+  font-family: inherit;
+  font-weight: normal;
+}
+.btn-download {
+  background: linear-gradient(135deg, #00F0FF, #0088cc);
+  border: none;
+  color: #000;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 13px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(0,240,255,0.4);
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+.btn-download:hover {
+  box-shadow: 0 0 35px rgba(0,240,255,0.7);
+  transform: translateY(-2px);
+}
+.btn-download.templar-mode {
+  background: linear-gradient(135deg, #D4AF37, #C8102E);
+  color: #fff;
+  box-shadow: 0 0 25px rgba(212,175,55,0.4);
+}
+.btn-download.templar-mode:hover {
+  box-shadow: 0 0 35px rgba(212,175,55,0.7);
+}
+
+/* Canvas Preview */
+.step2-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.canvas-wrap {
+  width: 100%;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.canvas-wrap canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.preview-tip {
+  font-size: 12px;
+  color: #8d9bad;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Navigation button for Initiation */
+#joinBtn {
+  background: linear-gradient(135deg, rgba(0,240,255,0.15), rgba(200,16,46,0.18));
+  border: 1.5px solid rgba(0,240,255,0.7);
+  color: #00F0FF;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+}
+#joinBtn:hover {
+  border-color: #D4AF37;
+  color: #fff;
+  box-shadow: 0 0 18px rgba(0,240,255,0.4), 0 0 18px rgba(212,175,55,0.4);
+  transform: translateY(-1px);
+}
+
+#sc8 .bJoin {
+  background: linear-gradient(135deg, rgba(0,240,255,0.18), rgba(200,16,46,0.22));
+  border: 1.5px solid #fff;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0,240,255,0.35), 0 0 20px rgba(200,16,46,0.35);
+}
+#sc8 .bJoin:hover {
+  background: #fff;
+  color: #000;
+  box-shadow: 0 0 35px rgba(255,255,255,0.8);
+  transform: translateY(-2px);
+}
+
+
 /* Trigger button in modes */
 #inBtn {
   border-color: #00F0FF !important;
@@ -883,6 +1383,7 @@ img{max-width:100%;height:auto}
     <div class="act cu" data-in="3.5">
       <button type="button" class="bA" id="inGoT">EXPLORAR CRONOLOGÍA</button>
       <button type="button" class="bG" id="inGoF">VER FRAGMENTOS DEL EDÉN</button>
+      <button type="button" class="bJoin" id="inGoJoin">⚡ UNIRSE A UN BANDO</button>
       <button type="button" class="bReplay" id="inReplay">⟲ REPETIR INICIACIÓN</button>
     </div>
   </section>
@@ -906,6 +1407,111 @@ img{max-width:100%;height:auto}
     <button type="button" class="ibtn" id="inSkip">SALTAR SECUENCIA ▸▸</button>
   </div>
 
+  
+  <!-- INITIATION & ID CARD GENERATOR MODAL -->
+  <div id="initModal" class="init-modal" hidden role="dialog" aria-modal="true" aria-label="Iniciación: Elige tu Bando">
+    <div class="init-box">
+      <!-- Header -->
+      <div class="init-top">
+        <div class="init-title">
+          <span class="init-tag">ANIMUS RECRUITMENT SYSTEM v4.2</span>
+          <h2>INICIACIÓN: ELIGE TU DESTINO</h2>
+        </div>
+        <button type="button" class="init-close" id="initClose" aria-label="Cerrar">✕</button>
+      </div>
+
+      <!-- Step 1: Selection (El Dilema) -->
+      <div id="initStep1" class="init-step active">
+        <p class="init-intro">Durante milenios, dos ideologías han moldeado el destino de la humanidad. Elige tu camino, presta juramento y genera tu carnet oficial de identidad.</p>
+        <div class="init-cards">
+          <!-- Card Asesinos -->
+          <div class="init-card card-assassin" id="chooseAssassin">
+            <div class="card-crest">
+              <svg viewBox="0 0 40 48" class="crest-svg"><path d="M20 3 L6 44 h6 l8-25 8 25 h6 Z M13 36 h14" fill="none" stroke="#00F0FF" stroke-width="2.6" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>HERMANDAD DE LOS ASESINOS</h3>
+            <span class="card-motto">«NADA ES VERDAD, TODO ESTÁ PERMITIDO»</span>
+            <p class="card-desc">Defiende el libre albedrío, combate la tiranía desde las sombras y protege el derecho de la humanidad a forjar su propio destino.</p>
+            <ul class="card-tenets">
+              <li>Aparta tu hoja de la carne del inocente.</li>
+              <li>Ocultate a plena vista; sé uno con la multitud.</li>
+              <li>Nunca comprometas a la Hermandad.</li>
+            </ul>
+            <button type="button" class="btn-choose btn-assassin">JURAR POR LA HERMANDAD ▸</button>
+          </div>
+
+          <!-- Card Templarios -->
+          <div class="init-card card-templar" id="chooseTemplar">
+            <div class="card-crest">
+              <svg viewBox="0 0 48 48" class="crest-svg"><path d="M24 4 L28 18 L42 14 L34 24 L42 34 L28 30 L24 44 L20 30 L6 34 L14 24 L6 14 L20 18 Z" fill="#D4AF37" stroke="#C8102E" stroke-width="2"/></svg>
+            </div>
+            <h3>ORDEN DE LOS TEMPLARIOS</h3>
+            <span class="card-motto">«QUE EL PADRE DEL ENTENDIMIENTO NOS GUÍE»</span>
+            <p class="card-desc">Impon el orden, el propósito y la disciplina. Solo una dirección firme salvará a la humanidad del caos y la autodestrucción.</p>
+            <ul class="card-tenets">
+              <li>Mantén la paz mediante el control de la historia.</li>
+              <li>Erradica el caos de las voluntades rebeldes.</li>
+              <li>Acepta la guía superior del Padre del Entendimiento.</li>
+            </ul>
+            <button type="button" class="btn-choose btn-templar">JURAR POR LA ORDEN ▸</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Form & Live Card Generator -->
+      <div id="initStep2" class="init-step">
+        <div class="step2-header">
+          <button type="button" class="btn-back" id="initBack">◂ Cambiar de Bando</button>
+          <div class="step2-badge assassin" id="step2FactionBadge">HERMANDAD DE LOS ASESINOS</div>
+        </div>
+
+        <div class="step2-grid">
+          <!-- Form Controls Column -->
+          <div class="step2-form">
+            <h3 class="form-title">REGISTRO DE AGENTE</h3>
+
+            <label for="agentName">Nombre o Alias:</label>
+            <input type="text" id="agentName" maxlength="32" placeholder="Tu nombre o alias" value="Sebastián">
+
+            <label for="agentRank">Rango en la Organización:</label>
+            <select id="agentRank"></select>
+
+            <label for="agentCell">División / Célula:</label>
+            <select id="agentCell"></select>
+
+            <label for="agentPhoto">Fotografía de Identidad:</label>
+            <div class="photo-upload-zone" id="photoDropZone">
+              <input type="file" id="agentPhoto" accept="image/*" style="display:none">
+              <div class="photo-prompt" id="photoPrompt">
+                <span class="upload-icon">📷</span>
+                <span>Haz clic o arrastra tu foto aquí</span>
+                <small>(Filtro holográfico automático)</small>
+              </div>
+              <div class="photo-preview-wrap" id="photoPreviewWrap" style="display:none">
+                <img id="photoThumb" alt="Vista previa">
+                <button type="button" id="photoClear" class="btn-clear-photo" title="Eliminar foto">✕</button>
+              </div>
+            </div>
+
+            <div class="filter-controls">
+              <label><input type="checkbox" id="applyHoloFilter" checked> Aplicar filtro holográfico Animus/Abstergo</label>
+            </div>
+
+            <button type="button" class="btn-download" id="downloadCardBtn">📥 DESCARGAR CARNET (PNG)</button>
+          </div>
+
+          <!-- Card Canvas Preview Column -->
+          <div class="step2-preview">
+            <div class="canvas-wrap">
+              <canvas id="cardCanvas" width="900" height="540"></canvas>
+            </div>
+            <p class="preview-tip">Vista previa en tiempo real. Tu carnet se genera en alta resolución (900x540) listo para descargar y compartir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <audio id="inAudio" loop preload="auto">
     <source src="musica-intro.mp3" type="audio/mpeg">
   </audio>
@@ -916,7 +1522,7 @@ img{max-width:100%;height:auto}
 </header>
 <div class="modes" role="group" aria-label="Orden">
   <button type="button" id="mHist" aria-pressed="true">Orden histórico</button>
-  <button type="button" id="mRel" aria-pressed="false">Orden de lanzamiento</button><button type="button" id="fragBtn">Fragmentos del Edén</button><button type="button" id="inBtn">▶ Iniciación (2:15)</button>
+  <button type="button" id="mRel" aria-pressed="false">Orden de lanzamiento</button><button type="button" id="fragBtn">Fragmentos del Edén</button><button type="button" id="inBtn">▶ Cinemática (2:15)</button><button type="button" id="joinBtn">⚡ Unirse a un Bando</button>
 </div>
 <div class="helix"><canvas id="dna" tabindex="0" role="img" aria-label="Hélice de ADN con un punto por cada juego. Arrastra para girar, toca un punto para elegir."></canvas></div>
 <button type="button" id="enter">Entrar al recuerdo</button>
@@ -1616,6 +2222,496 @@ $("cventer").onclick=function(){enterDB()};
   });
 
   window.openAnimusIntro = openIntro;
+
+/* ==========================================================================
+   INITIATION & ID CARD GENERATOR ENGINE
+   ========================================================================== */
+(function() {
+  var initModal = $("initModal"), initClose = $("initClose"), initBack = $("initBack");
+  var initStep1 = $("initStep1"), initStep2 = $("initStep2");
+  var chooseAssassin = $("chooseAssassin"), chooseTemplar = $("chooseTemplar");
+  var step2FactionBadge = $("step2FactionBadge");
+  var agentName = $("agentName"), agentRank = $("agentRank"), agentCell = $("agentCell");
+  var agentPhoto = $("agentPhoto"), photoDropZone = $("photoDropZone");
+  var photoPrompt = $("photoPrompt"), photoPreviewWrap = $("photoPreviewWrap");
+  var photoThumb = $("photoThumb"), photoClear = $("photoClear");
+  var applyHoloFilter = $("applyHoloFilter"), downloadCardBtn = $("downloadCardBtn");
+  var cardCanvas = $("cardCanvas"), cardCtx = cardCanvas ? cardCanvas.getContext("2d") : null;
+
+  var currentFaction = "assassin";
+  var userImage = null;
+
+  var RANKS = {
+    assassin: [
+      { id: "maestro", name: "Maestro Asesino" },
+      { id: "mentor", name: "Mentor de la Hermandad" },
+      { id: "iniciado", name: "Iniciado Oculto" },
+      { id: "novicio", name: "Novicio" }
+    ],
+    templar: [
+      { id: "gran_maestre", name: "Gran Maestre de la Orden" },
+      { id: "comendador", name: "Comendador de Abstergo" },
+      { id: "caballero", name: "Caballero Templario" },
+      { id: "neofito", name: "Neófito de la Orden" }
+    ]
+  };
+
+  var CELLS = {
+    assassin: [
+      "Egipto Ptolemaico (Los Ocultos)",
+      "Tierra Santa (Masyaf)",
+      "Renacimiento Italiano (Florencia & Roma)",
+      "Caribe Dorado (Hermandad Pirata)",
+      "Revolución Francesa (París)",
+      "Londres Victoriano (Hermandad Frye)",
+      "Célula Global Moderna (Cripta)"
+    ],
+    templar: [
+      "Abstergo Industries (Proyecto Animus)",
+      "Orden de los Antiguos (Alejandría)",
+      "Caballeros Templarios (Reino de Inglaterra)",
+      "Cónclave de Roma (Familia Borgia)",
+      "Rito Colonial (América del Norte)",
+      "Culto de Kosmos (Grecia Clásica)"
+    ]
+  };
+
+  function selectFaction(faction) {
+    currentFaction = faction;
+    var isAss = (faction === "assassin");
+
+    agentRank.innerHTML = "";
+    RANKS[faction].forEach(function(r) {
+      var opt = document.createElement("option");
+      opt.value = r.name;
+      opt.textContent = r.name;
+      agentRank.appendChild(opt);
+    });
+
+    agentCell.innerHTML = "";
+    CELLS[faction].forEach(function(c) {
+      var opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      agentCell.appendChild(opt);
+    });
+
+    step2FactionBadge.className = "step2-badge " + faction;
+    step2FactionBadge.textContent = isAss ? "HERMANDAD DE LOS ASESINOS" : "ORDEN DE LOS TEMPLARIOS";
+
+    downloadCardBtn.classList.toggle("templar-mode", !isAss);
+
+    initStep1.classList.remove("active");
+    initStep2.classList.add("active");
+
+    renderCard();
+  }
+
+  if (chooseAssassin) chooseAssassin.onclick = function() { selectFaction("assassin"); };
+  if (chooseTemplar) chooseTemplar.onclick = function() { selectFaction("templar"); };
+
+  if (initBack) initBack.onclick = function() {
+    initStep2.classList.remove("active");
+    initStep1.classList.add("active");
+  };
+
+  function openInitiation(forceFaction) {
+    if (!initModal) return;
+    initModal.hidden = false;
+    document.body.style.overflow = "hidden";
+    if (forceFaction) {
+      selectFaction(forceFaction);
+    } else {
+      initStep2.classList.remove("active");
+      initStep1.classList.add("active");
+    }
+    if (initClose) initClose.focus();
+  }
+
+  function closeInitiation() {
+    if (!initModal) return;
+    initModal.hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  if (initClose) initClose.onclick = closeInitiation;
+
+  var joinBtn = $("joinBtn");
+  if (joinBtn) joinBtn.onclick = function() { openInitiation(); };
+
+  var inGoJoin = $("inGoJoin");
+  if (inGoJoin) inGoJoin.onclick = function() {
+    var inClose = $("inClose");
+    if (inClose) inClose.click();
+    openInitiation();
+  };
+
+  document.addEventListener("keydown", function(e) {
+    if (initModal && !initModal.hidden && e.key === "Escape") {
+      closeInitiation();
+    }
+  });
+
+  if (photoDropZone) {
+    photoDropZone.onclick = function(e) {
+      if (e.target !== photoClear && agentPhoto) {
+        agentPhoto.click();
+      }
+    };
+    photoDropZone.ondragover = function(e) {
+      e.preventDefault();
+      photoDropZone.style.borderColor = "#00F0FF";
+    };
+    photoDropZone.ondragleave = function(e) {
+      e.preventDefault();
+      photoDropZone.style.borderColor = "";
+    };
+    photoDropZone.ondrop = function(e) {
+      e.preventDefault();
+      photoDropZone.style.borderColor = "";
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handlePhotoFile(e.dataTransfer.files[0]);
+      }
+    };
+  }
+
+  if (agentPhoto) {
+    agentPhoto.onchange = function() {
+      if (agentPhoto.files && agentPhoto.files[0]) {
+        handlePhotoFile(agentPhoto.files[0]);
+      }
+    };
+  }
+
+  function handlePhotoFile(file) {
+    if (!file.type.match("image.*")) return;
+    var reader = new FileReader();
+    reader.onload = function(evt) {
+      var img = new Image();
+      img.onload = function() {
+        userImage = img;
+        if (photoThumb) photoThumb.src = evt.target.result;
+        if (photoPrompt) photoPrompt.style.display = "none";
+        if (photoPreviewWrap) photoPreviewWrap.style.display = "flex";
+        renderCard();
+      };
+      img.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  if (photoClear) {
+    photoClear.onclick = function(e) {
+      e.stopPropagation();
+      userImage = null;
+      if (agentPhoto) agentPhoto.value = "";
+      if (photoThumb) photoThumb.src = "";
+      if (photoPreviewWrap) photoPreviewWrap.style.display = "none";
+      if (photoPrompt) photoPrompt.style.display = "flex";
+      renderCard();
+    };
+  }
+
+  if (agentName) agentName.oninput = renderCard;
+  if (agentRank) agentRank.onchange = renderCard;
+  if (agentCell) agentCell.onchange = renderCard;
+  if (applyHoloFilter) applyHoloFilter.onchange = renderCard;
+
+  function renderCard() {
+    if (!cardCtx) return;
+    var ctx = cardCtx;
+    var W = 900, H = 540;
+    var isAss = (currentFaction === "assassin");
+
+    ctx.clearRect(0, 0, W, H);
+
+    // 1. Background Gradient
+    var bgGrad = ctx.createLinearGradient(0, 0, W, H);
+    if (isAss) {
+      bgGrad.addColorStop(0, "#05090f");
+      bgGrad.addColorStop(0.5, "#0a131f");
+      bgGrad.addColorStop(1, "#04070b");
+    } else {
+      bgGrad.addColorStop(0, "#0e0708");
+      bgGrad.addColorStop(0.5, "#180d10");
+      bgGrad.addColorStop(1, "#0a0506");
+    }
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Tech Grid pattern
+    ctx.strokeStyle = isAss ? "rgba(0, 240, 255, 0.04)" : "rgba(212, 175, 55, 0.04)";
+    ctx.lineWidth = 1;
+    for (var x = 0; x < W; x += 30) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (var y = 0; y < H; y += 30) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    // 2. Faction Watermark Emblem in Background (Center-Right)
+    ctx.save();
+    ctx.translate(610, 260);
+    if (isAss) {
+      ctx.strokeStyle = "rgba(0, 240, 255, 0.08)";
+      ctx.lineWidth = 8;
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      ctx.moveTo(0, -140);
+      ctx.lineTo(-85, 120);
+      ctx.lineTo(-45, 120);
+      ctx.lineTo(0, -20);
+      ctx.lineTo(45, 120);
+      ctx.lineTo(85, 120);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-50, 70);
+      ctx.lineTo(50, 70);
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = "rgba(200, 16, 46, 0.09)";
+      ctx.strokeStyle = "rgba(212, 175, 55, 0.1)";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(0, -130);
+      ctx.lineTo(25, -45);
+      ctx.lineTo(110, -70);
+      ctx.lineTo(55, 0);
+      ctx.lineTo(110, 70);
+      ctx.lineTo(25, 45);
+      ctx.lineTo(0, 130);
+      ctx.lineTo(-25, 45);
+      ctx.lineTo(-110, 70);
+      ctx.lineTo(-55, 0);
+      ctx.lineTo(-110, -70);
+      ctx.lineTo(-25, -45);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // 3. Card Outer Border & Corners
+    ctx.strokeStyle = isAss ? "#00F0FF" : "#D4AF37";
+    ctx.lineWidth = 2.5;
+    ctx.strokeRect(18, 18, W - 36, H - 36);
+
+    // Decorative corner brackets
+    ctx.lineWidth = 5;
+    var bLen = 28;
+    ctx.beginPath(); ctx.moveTo(14, 14 + bLen); ctx.lineTo(14, 14); ctx.lineTo(14 + bLen, 14); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(W - 14 - bLen, 14); ctx.lineTo(W - 14, 14); ctx.lineTo(W - 14, 14 + bLen); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(14, H - 14 - bLen); ctx.lineTo(14, H - 14); ctx.lineTo(14 + bLen, H - 14); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(W - 14 - bLen, H - 14); ctx.lineTo(W - 14, H - 14); ctx.lineTo(W - 14, H - 14 - bLen); ctx.stroke();
+
+    // 4. Header Bar
+    ctx.fillStyle = isAss ? "rgba(0, 240, 255, 0.12)" : "rgba(200, 16, 46, 0.22)";
+    ctx.fillRect(36, 32, W - 72, 48);
+    ctx.strokeStyle = isAss ? "rgba(0, 240, 255, 0.35)" : "rgba(212, 175, 55, 0.4)";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(36, 32, W - 72, 48);
+
+    ctx.font = "bold 15px Rajdhani, sans-serif";
+    ctx.fillStyle = isAss ? "#00F0FF" : "#D4AF37";
+    ctx.fillText(
+      isAss ? "HERMANDAD DE LOS OCULTOS // ARCHIVO CLANDESTINO ANIMUS" : "ABSTERGO INDUSTRIES // ACCREDITED AGENT SECURITY BADGE",
+      55, 62
+    );
+
+    ctx.font = "600 13px Rajdhani, sans-serif";
+    ctx.fillStyle = "#8d9bad";
+    ctx.textAlign = "right";
+    ctx.fillText(
+      isAss ? "DNA SYNC: 99.8% [ACTIVO]" : "SECURITY CLEARANCE: LEVEL 5",
+      W - 55, 62
+    );
+    ctx.textAlign = "left";
+
+    // 5. Left Column: Photo Box (55, 104, 220, 270)
+    var pX = 55, pY = 104, pW = 220, pH = 270;
+    ctx.fillStyle = "#020406";
+    ctx.fillRect(pX, pY, pW, pH);
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(pX, pY, pW, pH);
+    ctx.clip();
+
+    if (userImage) {
+      var iW = userImage.width, iH = userImage.height;
+      var scale = Math.max(pW / iW, pH / iH);
+      var dW = iW * scale, dH = iH * scale;
+      var dx = pX + (pW - dW) / 2;
+      var dy = pY + (pH - dH) / 2;
+      ctx.drawImage(userImage, dx, dy, dW, dH);
+
+      if (applyHoloFilter && applyHoloFilter.checked) {
+        if (isAss) {
+          ctx.fillStyle = "rgba(0, 220, 255, 0.22)";
+          ctx.fillRect(pX, pY, pW, pH);
+          ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
+          for (var sl = pY; sl < pY + pH; sl += 4) {
+            ctx.fillRect(pX, sl, pW, 2);
+          }
+        } else {
+          ctx.fillStyle = "rgba(212, 175, 55, 0.22)";
+          ctx.fillRect(pX, pY, pW, pH);
+          ctx.fillStyle = "rgba(200, 16, 46, 0.12)";
+          ctx.fillRect(pX, pY, pW, pH);
+        }
+      }
+    } else {
+      ctx.fillStyle = isAss ? "#0a131c" : "#140c0e";
+      ctx.fillRect(pX, pY, pW, pH);
+
+      ctx.fillStyle = isAss ? "#00F0FF" : "#D4AF37";
+      ctx.globalAlpha = 0.35;
+      ctx.beginPath();
+      ctx.moveTo(pX + pW / 2, pY + 50);
+      ctx.lineTo(pX + pW / 2 - 50, pY + 120);
+      ctx.lineTo(pX + pW / 2 - 70, pY + 230);
+      ctx.lineTo(pX + pW / 2 + 70, pY + 230);
+      ctx.lineTo(pX + pW / 2 + 50, pY + 120);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = isAss ? "#ffffff" : "#ff4d67";
+      ctx.globalAlpha = 0.9;
+      ctx.fillRect(pX + pW / 2 - 25, pY + 120, 50, 4);
+
+      ctx.globalAlpha = 1.0;
+      ctx.font = "12px Rajdhani, sans-serif";
+      ctx.fillStyle = "#8d9bad";
+      ctx.textAlign = "center";
+      ctx.fillText("[ FOTO DE IDENTIDAD ]", pX + pW / 2, pY + pH - 24);
+      ctx.textAlign = "left";
+    }
+    ctx.restore();
+
+    ctx.strokeStyle = isAss ? "#00F0FF" : "#D4AF37";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(pX, pY, pW, pH);
+
+    var ch = 10;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(pX, pY + ch); ctx.lineTo(pX, pY); ctx.lineTo(pX + ch, pY);
+    ctx.moveTo(pX + pW - ch, pY); ctx.lineTo(pX + pW, pY); ctx.lineTo(pX + pW, pY + ch);
+    ctx.moveTo(pX, pY + pH - ch); ctx.lineTo(pX, pY + pH); ctx.lineTo(pX + ch, pY + pH);
+    ctx.moveTo(pX + pW - ch, pY + pH); ctx.lineTo(pX + pW, pY + pH); ctx.lineTo(pX + pW, pY + pH - ch);
+    ctx.stroke();
+
+    // Chip contact below photo
+    var cX = 55, cY = 390;
+    ctx.fillStyle = "#d4af37";
+    ctx.fillRect(cX, cY, 48, 36);
+    ctx.strokeStyle = "#8b6f20";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(cX, cY, 48, 36);
+    ctx.beginPath();
+    ctx.moveTo(cX + 16, cY); ctx.lineTo(cX + 16, cY + 36);
+    ctx.moveTo(cX + 32, cY); ctx.lineTo(cX + 32, cY + 36);
+    ctx.moveTo(cX, cY + 18); ctx.lineTo(cX + 48, cY + 18);
+    ctx.stroke();
+
+    ctx.font = "bold 11px Rajdhani, sans-serif";
+    ctx.fillStyle = isAss ? "#00F0FF" : "#D4AF37";
+    ctx.fillText("BIOMETRICS: VERIFIED", cX + 58, cY + 16);
+    ctx.font = "10px Rajdhani, sans-serif";
+    ctx.fillStyle = "#8d9bad";
+    ctx.fillText("ISU GENOME TRACE: POSITIVE", cX + 58, cY + 30);
+
+    // 6. Right Column: Agent Information (310, 110)
+    var dX = 310;
+    var uName = ((agentName && agentName.value.trim()) || "SEBASTIÁN AUDITORE").toUpperCase();
+    var uRank = ((agentRank && agentRank.value) || (isAss ? "Maestro Asesino" : "Gran Maestre")).toUpperCase();
+    var uCell = ((agentCell && agentCell.value) || (isAss ? "Tierra Santa (Masyaf)" : "Proyecto Animus")).toUpperCase();
+
+    ctx.font = "bold 13px Rajdhani, sans-serif";
+    ctx.fillStyle = isAss ? "rgba(0, 240, 255, 0.85)" : "rgba(212, 175, 55, 0.85)";
+    ctx.fillText(isAss ? "SUJETO / AGENTE OFICIAL" : "DIRECTORIO / AFILIADO ACREDITADO", dX, 118);
+
+    ctx.font = "400 32px Marcellus, Georgia, serif";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(uName, dX, 156);
+
+    var uLineGrad = ctx.createLinearGradient(dX, 168, dX + 500, 168);
+    uLineGrad.addColorStop(0, isAss ? "#00F0FF" : "#D4AF37");
+    uLineGrad.addColorStop(1, "transparent");
+    ctx.strokeStyle = uLineGrad;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(dX, 168); ctx.lineTo(dX + 520, 168); ctx.stroke();
+
+    var fields = [
+      { label: "RANGO / TÍTULO", val: uRank, color: isAss ? "#00F0FF" : "#D4AF37" },
+      { label: "AFILIACIÓN", val: isAss ? "HERMANDAD DE LOS ASESINOS" : "ORDEN DE LOS TEMPLARIOS", color: "#ffffff" },
+      { label: "DIVISIÓN / CÉLULA", val: uCell, color: "#c9d6e4" },
+      { label: "CÓDIGO DE AGENTE", val: isAss ? "AS-1191-8492 // ISU-SYN" : "AB-2012-9901 // LEVEL-5", color: "#8d9bad" },
+      { label: "FECHA DE EMISIÓN", val: new Date().toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" }), color: "#8d9bad" }
+    ];
+
+    var curY = 202;
+    fields.forEach(function(f) {
+      ctx.font = "bold 11px Rajdhani, sans-serif";
+      ctx.fillStyle = "#6e7f94";
+      ctx.fillText(f.label, dX, curY);
+
+      ctx.font = "600 17px Rajdhani, sans-serif";
+      ctx.fillStyle = f.color;
+      ctx.fillText(f.val, dX, curY + 18);
+
+      curY += 42;
+    });
+
+    // 7. Bottom Motto Banner
+    var bY = 456;
+    ctx.fillStyle = isAss ? "rgba(0, 240, 255, 0.12)" : "rgba(200, 16, 46, 0.22)";
+    ctx.fillRect(55, bY, W - 110, 48);
+    ctx.strokeStyle = isAss ? "#00F0FF" : "#D4AF37";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(55, bY, W - 110, 48);
+
+    ctx.font = "400 18px Marcellus, Georgia, serif";
+    ctx.fillStyle = isAss ? "#00F0FF" : "#D4AF37";
+    ctx.textAlign = "center";
+    ctx.fillText(
+      isAss ? "« NADA ES VERDAD, TODO ESTÁ PERMITIDO »" : "« QUE EL PADRE DEL ENTENDIMIENTO NOS GUÍE »",
+      W / 2, bY + 30
+    );
+    ctx.textAlign = "left";
+
+    // 8. Barcode
+    var barX = W - 180, barY = bY + 8;
+    ctx.fillStyle = isAss ? "#00F0FF" : "#D4AF37";
+    ctx.globalAlpha = 0.8;
+    var bars = [2, 1, 3, 1, 1, 4, 2, 1, 3, 1, 2, 4, 1, 2, 3, 1, 2, 1];
+    var bx = barX;
+    bars.forEach(function(bw) {
+      ctx.fillRect(bx, barY, bw, 32);
+      bx += bw + 2;
+    });
+    ctx.globalAlpha = 1.0;
+  }
+
+  if (downloadCardBtn) {
+    downloadCardBtn.onclick = function() {
+      if (!cardCanvas) return;
+      renderCard();
+      var uName = ((agentName && agentName.value.trim()) || "agente").toLowerCase().replace(/[^a-z0-9]/g, "-");
+      var fileName = "carnet-" + currentFaction + "-" + uName + ".png";
+      var link = document.createElement("a");
+      link.download = fileName;
+      link.href = cardCanvas.toDataURL("image/png");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+  }
+
+  window.openInitiation = openInitiation;
+})();
+
 })();
 </script>
 </body>

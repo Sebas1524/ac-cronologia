@@ -906,7 +906,7 @@ img{max-width:100%;height:auto}
     <button type="button" class="ibtn" id="inSkip">SALTAR SECUENCIA ▸▸</button>
   </div>
 
-  <audio id="inAudio" loop preload="none">
+  <audio id="inAudio" loop preload="auto">
     <source src="musica-intro.mp3" type="audio/mpeg">
   </audio>
 </div>
@@ -1257,7 +1257,7 @@ $("cventer").onclick=function(){enterDB()};
       osc1.type = "sine"; osc1.frequency.value = 55;
       osc2.type = "sawtooth"; osc2.frequency.value = 110;
       droneFilter.type = "lowpass"; droneFilter.frequency.value = 180;
-      droneGain.gain.value = 0.08;
+      droneGain.gain.value = 0.025;
 
       osc1.connect(droneFilter);
       osc2.connect(droneFilter);
@@ -1275,7 +1275,7 @@ $("cventer").onclick=function(){enterDB()};
       inSndBtn.classList.add("on");
       initAudio();
       if (aCtx && aCtx.state === "suspended") aCtx.resume();
-      if (droneGain && aCtx) droneGain.gain.setTargetAtTime(0.08, aCtx.currentTime, 0.5);
+      if (droneGain && aCtx) droneGain.gain.setTargetAtTime(0.025, aCtx.currentTime, 0.5);
       if (inAudio) {
         inAudio.play().catch(function() {});
       }
@@ -1462,6 +1462,19 @@ $("cventer").onclick=function(){enterDB()};
     // Draw canvas effects
     drawCanvas(curChIdx, tRel);
 
+    // Audio volume automation & drift synchronization
+    if (inAudio) {
+      if (t >= 125) {
+        var pFade = Math.max(0.12, (135 - t) / 10);
+        inAudio.volume = pFade;
+      } else {
+        inAudio.volume = 1.0;
+      }
+      if (inPlaying && isSoundOn && !inAudio.paused && Math.abs(inAudio.currentTime - t) > 0.4) {
+        try { inAudio.currentTime = t; } catch(e){}
+      }
+    }
+
     // Auto pause at end
     if (t >= IN_DUR && inPlaying) {
       pause();
@@ -1492,7 +1505,12 @@ $("cventer").onclick=function(){enterDB()};
     inLastT = performance.now();
     inPlayBtn.innerHTML = "❚❚";
     inPlayBtn.setAttribute("aria-label", "Pausar");
-    if (isSoundOn && inAudio) inAudio.play().catch(function(){});
+    if (isSoundOn && inAudio) {
+      if (Math.abs(inAudio.currentTime - inCurTime) > 0.4) {
+        try { inAudio.currentTime = inCurTime; } catch(e){}
+      }
+      inAudio.play().catch(function(){});
+    }
     if (inRAF) cancelAnimationFrame(inRAF);
     inRAF = requestAnimationFrame(tick);
   }
@@ -1507,9 +1525,13 @@ $("cventer").onclick=function(){enterDB()};
 
   function seekTo(sec) {
     inCurTime = Math.max(0, Math.min(IN_DUR, sec));
+    if (inAudio) {
+      try { inAudio.currentTime = inCurTime; } catch(e){}
+    }
     update(inCurTime);
     if (inPlaying) {
       inLastT = performance.now();
+      if (isSoundOn && inAudio) inAudio.play().catch(function(){});
     }
   }
 
@@ -1527,6 +1549,7 @@ $("cventer").onclick=function(){enterDB()};
     inRoot.hidden = false;
     resizeCv();
     seekTo(0);
+    toggleSound(true);
     play();
     $("inClose").focus();
   }

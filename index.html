@@ -2246,6 +2246,21 @@ $("cventer").onclick=function(){enterDB()};
   var currentFaction = "assassin";
   var userImage = null;
 
+  var TEMPLATE_MAP = {
+    "Egipto Ptolemaico (Alejandría)": "plantillas-carnet/egipto.jpg",
+    "Tierra Santa (Fortaleza de Masyaf)": "plantillas-carnet/masyaf.jpg",
+    "Caribe Dorado (Nasáu & Maracaibo)": "plantillas-carnet/caribe.jpg",
+    "Revolución Francesa (París)": "plantillas-carnet/francia.jpg",
+    "Londres Victoriano (Hermandad Frye)": "plantillas-carnet/londres.jpg"
+  };
+
+  var templateCache = {};
+  for (var tKey in TEMPLATE_MAP) {
+    var im = new Image();
+    im.src = TEMPLATE_MAP[tKey];
+    templateCache[tKey] = im;
+  }
+
   var RANKS = {
     assassin: [
       { id: "maestro", name: "Maestro Asesino" },
@@ -2263,10 +2278,9 @@ $("cventer").onclick=function(){enterDB()};
 
   var CELLS = {
     assassin: [
-      "Egipto Ptolemaico (Los Ocultos)",
-      "Tierra Santa (Masyaf)",
-      "Renacimiento Italiano (Florencia & Roma)",
-      "Caribe Dorado (Hermandad Pirata)",
+      "Egipto Ptolemaico (Alejandría)",
+      "Tierra Santa (Fortaleza de Masyaf)",
+      "Caribe Dorado (Nasáu & Maracaibo)",
       "Revolución Francesa (París)",
       "Londres Victoriano (Hermandad Frye)",
       "Célula Global Moderna (Cripta)"
@@ -2422,10 +2436,88 @@ $("cventer").onclick=function(){enterDB()};
   if (agentCell) agentCell.onchange = renderCard;
   if (applyHoloFilter) applyHoloFilter.onchange = renderCard;
 
-  function renderCard() {
+  // Historical Template Card Rendering (1024 x 616)
+  function renderTemplateCard(tImg) {
+    if (!cardCtx) return;
+    var ctx = cardCtx;
+    var W = 1024, H = 616;
+    cardCanvas.width = W;
+    cardCanvas.height = H;
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(tImg, 0, 0, W, H);
+
+    // 1. Photo rendering (Photo frame inner box: x=118, y=108, w=252, h=330)
+    if (userImage) {
+      var pX = 118, pY = 108, pW = 252, pH = 330;
+      ctx.save();
+      ctx.beginPath();
+      var r = 6;
+      ctx.moveTo(pX + r, pY);
+      ctx.arcTo(pX + pW, pY, pX + pW, pY + pH, r);
+      ctx.arcTo(pX + pW, pY + pH, pX, pY + pH, r);
+      ctx.arcTo(pX, pY + pH, pX, pY, r);
+      ctx.arcTo(pX, pY, pX + pW, pY, r);
+      ctx.closePath();
+      ctx.clip();
+
+      var iW = userImage.width, iH = userImage.height;
+      var scale = Math.max(pW / iW, pH / iH);
+      var dW = iW * scale, dH = iH * scale;
+      var dx = pX + (pW - dW) / 2;
+      var dy = pY + (pH - dH) / 2;
+      ctx.drawImage(userImage, dx, dy, dW, dH);
+
+      // Vintage / Daguerreotype / Parchment tint filter if applyHoloFilter is checked
+      if (applyHoloFilter && applyHoloFilter.checked) {
+        ctx.fillStyle = "rgba(180, 140, 85, 0.22)";
+        ctx.fillRect(pX, pY, pW, pH);
+        var vig = ctx.createRadialGradient(pX + pW/2, pY + pH/2, pW/3, pX + pW/2, pY + pH/2, pW/1.2);
+        vig.addColorStop(0, "rgba(0,0,0,0)");
+        vig.addColorStop(1, "rgba(45,30,15,0.45)");
+        ctx.fillStyle = vig;
+        ctx.fillRect(pX, pY, pW, pH);
+      }
+      ctx.restore();
+    }
+
+    // 2. Dynamic Agent Name
+    var uName = ((agentName && agentName.value.trim()) || "SEBASTIÁN").toUpperCase();
+    if (uName !== "SEBASTIÁN") {
+      // Patch parchment behind the name from clean strip at y=172
+      ctx.drawImage(tImg, 490, 172, 420, 14, 490, 192, 420, 85);
+
+      ctx.font = "bold 38px 'Marcellus', Georgia, serif";
+      ctx.fillStyle = "#0c0808";
+      ctx.textAlign = "center";
+      ctx.fillText(uName, 700, 248);
+      ctx.textAlign = "left";
+    }
+
+    // 3. Dynamic Rank (if user changed rank from default)
+    var uRank = (agentRank && agentRank.value) || "";
+    if (uRank && uRank !== "Maestro Asesino" && uRank.indexOf("Maestro Asesino") === -1) {
+      ctx.fillStyle = "rgba(25, 18, 12, 0.92)";
+      ctx.fillRect(520, 296, 360, 38);
+      ctx.strokeStyle = "rgba(212, 175, 55, 0.7)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(520, 296, 360, 38);
+
+      ctx.font = "bold 15px 'Rajdhani', sans-serif";
+      ctx.fillStyle = "#e8c976";
+      ctx.textAlign = "center";
+      ctx.fillText(uRank.toUpperCase(), 700, 321);
+      ctx.textAlign = "left";
+    }
+  }
+
+  // Modern Animus / Abstergo Card Rendering (Original procedural Canvas)
+  function renderModernCard() {
     if (!cardCtx) return;
     var ctx = cardCtx;
     var W = 900, H = 540;
+    cardCanvas.width = W;
+    cardCanvas.height = H;
     var isAss = (currentFaction === "assassin");
 
     ctx.clearRect(0, 0, W, H);
@@ -2602,7 +2694,7 @@ $("cventer").onclick=function(){enterDB()};
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(pX, pY + ch); ctx.lineTo(pX, pY); ctx.lineTo(pX + ch, pY);
-    ctx.moveTo(pX + pW - ch, pY); ctx.lineTo(pX + pW, pY); ctx.lineTo(pX + pW, pY + ch);
+    ctx.moveTo(pX + pW - ch, pY); ctx.lineTo(pX + pW); ctx.lineTo(pX + pW, pY + ch);
     ctx.moveTo(pX, pY + pH - ch); ctx.lineTo(pX, pY + pH); ctx.lineTo(pX + ch, pY + pH);
     ctx.moveTo(pX + pW - ch, pY + pH); ctx.lineTo(pX + pW, pY + pH); ctx.lineTo(pX + pW, pY + pH - ch);
     ctx.stroke();
@@ -2629,9 +2721,9 @@ $("cventer").onclick=function(){enterDB()};
 
     // 6. Right Column: Agent Information (310, 110)
     var dX = 310;
-    var uName = ((agentName && agentName.value.trim()) || "SEBASTIÁN AUDITORE").toUpperCase();
+    var uName = ((agentName && agentName.value.trim()) || "SEBASTIÁN").toUpperCase();
     var uRank = ((agentRank && agentRank.value) || (isAss ? "Maestro Asesino" : "Gran Maestre")).toUpperCase();
-    var uCell = ((agentCell && agentCell.value) || (isAss ? "Tierra Santa (Masyaf)" : "Proyecto Animus")).toUpperCase();
+    var uCell = ((agentCell && agentCell.value) || (isAss ? "Célula Global Moderna" : "Proyecto Animus")).toUpperCase();
 
     ctx.font = "bold 13px Rajdhani, sans-serif";
     ctx.fillStyle = isAss ? "rgba(0, 240, 255, 0.85)" : "rgba(212, 175, 55, 0.85)";
@@ -2699,6 +2791,26 @@ $("cventer").onclick=function(){enterDB()};
     ctx.globalAlpha = 1.0;
   }
 
+  // Master render dispatcher
+  function renderCard() {
+    if (!cardCtx) return;
+    var isAss = (currentFaction === "assassin");
+    var uCell = (agentCell && agentCell.value) || "";
+    var tPath = isAss ? TEMPLATE_MAP[uCell] : null;
+
+    if (tPath && templateCache[uCell]) {
+      var tImg = templateCache[uCell];
+      if (tImg.complete && tImg.naturalWidth > 0) {
+        renderTemplateCard(tImg);
+        return;
+      } else {
+        tImg.onload = function() { renderCard(); };
+      }
+    }
+
+    // Default to modern Animus / Abstergo design
+    renderModernCard();
+  }
   if (downloadCardBtn) {
     downloadCardBtn.onclick = function() {
       if (!cardCanvas) return;

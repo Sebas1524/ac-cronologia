@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Assassin’s Creed: cronología</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Source+Sans+3:wght@400;600&family=Rajdhani:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Marcellus&family=Source+Sans+3:wght@400;600&family=Rajdhani:wght@500;600&display=swap">
 <style>
 :root{
   --bg:#0b1017;--panel:#121a24;--line:#2a3646;--text:#e6ecf2;--mute:#8d9bad;--a:#c9d6e4;
@@ -2437,8 +2437,31 @@ $("cventer").onclick=function(){enterDB()};
   if (agentCell) agentCell.onchange = renderCard;
   if (applyHoloFilter) applyHoloFilter.onchange = renderCard;
 
-  // Historical Template Card Rendering (1024 x 616)
-  function renderTemplateCard(tImg) {
+  // Historical Template Card Configurations (Exact coordinates & authentic styling)
+  var TEMPLATE_CONFIG = {
+    "Egipto Ptolemaico (Alejandría)": {
+      nameX: 685, nameY: 154, maxW: 380,
+      badge: { x: 520, y: 214, w: 330, h: 25, cx: 685, cy: 226, role: "OCULTO" }
+    },
+    "Tierra Santa (Fortaleza de Masyaf)": {
+      nameX: 700, nameY: 148, maxW: 370,
+      badge: { x: 535, y: 200, w: 330, h: 24, cx: 700, cy: 212, role: "HERMANO" }
+    },
+    "Caribe Dorado (Nasáu & Maracaibo)": {
+      nameX: 765, nameY: 152, maxW: 350,
+      badge: { x: 625, y: 202, w: 285, h: 24, cx: 765, cy: 214, role: "CAPITÁN" }
+    },
+    "Revolución Francesa (París)": {
+      nameX: 675, nameY: 154, maxW: 410,
+      badge: { x: 505, y: 204, w: 335, h: 26, cx: 672, cy: 217, role: "ENLACE" }
+    },
+    "Londres Victoriano (Hermandad Frye)": {
+      nameX: 720, nameY: 152, maxW: 400,
+      badge: { x: 560, y: 204, w: 330, h: 24, cx: 725, cy: 216, role: "ENLACE" }
+    }
+  };
+
+  function renderTemplateCard(tImg, cellName) {
     if (!cardCtx) return;
     var ctx = cardCtx;
     var W = 1024, H = 616;
@@ -2469,7 +2492,7 @@ $("cventer").onclick=function(){enterDB()};
       var dy = pY + (pH - dH) / 2;
       ctx.drawImage(userImage, dx, dy, dW, dH);
 
-      // Vintage / Daguerreotype / Parchment tint filter if applyHoloFilter is checked
+      // Vintage / Parchment tint filter if applyHoloFilter is checked
       if (applyHoloFilter && applyHoloFilter.checked) {
         ctx.fillStyle = "rgba(180, 140, 85, 0.22)";
         ctx.fillRect(pX, pY, pW, pH);
@@ -2482,33 +2505,60 @@ $("cventer").onclick=function(){enterDB()};
       ctx.restore();
     }
 
-    // 2. Dynamic Agent Name
-    var uName = ((agentName && agentName.value.trim()) || "SEBASTIÁN").toUpperCase();
-    if (uName !== "SEBASTIÁN") {
-      // Patch parchment behind the name from clean strip at y=172
-      ctx.drawImage(tImg, 490, 172, 420, 14, 490, 192, 420, 85);
+    var cfg = (cellName && TEMPLATE_CONFIG[cellName]) ? TEMPLATE_CONFIG[cellName] : { nameX: 700, nameY: 152, maxW: 380 };
 
-      ctx.font = "bold 38px 'Marcellus', Georgia, serif";
-      ctx.fillStyle = "#0c0808";
-      ctx.textAlign = "center";
-      ctx.fillText(uName, 700, 248);
-      ctx.textAlign = "left";
+    // 2. Dynamic Agent Name (Renders seamlessly directly onto clean parchment)
+    var rawName = (agentName && agentName.value.trim()) || "SEBASTIÁN";
+    var uName = rawName.toUpperCase();
+    ctx.save();
+    ctx.fillStyle = "#150e09"; // authentic deep historical ink
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    var fontSize = 38;
+    ctx.font = "bold " + fontSize + "px 'Cinzel', 'Marcellus', 'Georgia', serif";
+    var maxW = cfg.maxW || 380;
+    var measuredW = ctx.measureText(uName).width;
+    if (measuredW > maxW) {
+      fontSize = Math.max(20, Math.floor(fontSize * (maxW / measuredW)));
+      ctx.font = "bold " + fontSize + "px 'Cinzel', 'Marcellus', 'Georgia', serif";
     }
+    ctx.fillText(uName, cfg.nameX, cfg.nameY);
+    ctx.restore();
 
-    // 3. Dynamic Rank (if user changed rank from default)
+    // 3. Dynamic Rank (Renders cleanly INSIDE the embossed metal badge plate if customized)
     var uRank = (agentRank && agentRank.value) || "";
-    if (uRank && uRank !== "Maestro Asesino" && uRank.indexOf("Maestro Asesino") === -1) {
-      ctx.fillStyle = "rgba(25, 18, 12, 0.92)";
-      ctx.fillRect(520, 296, 360, 38);
-      ctx.strokeStyle = "rgba(212, 175, 55, 0.7)";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(520, 296, 360, 38);
+    if (cfg.badge && uRank && uRank.indexOf("Maestro Asesino") === -1) {
+      var b = cfg.badge;
+      ctx.save();
+      // Metallic plate gradient
+      var bgGrad = ctx.createLinearGradient(b.x, b.y, b.x, b.y + b.h);
+      bgGrad.addColorStop(0, "rgba(45, 32, 20, 0.96)");
+      bgGrad.addColorStop(0.5, "rgba(70, 52, 28, 0.96)");
+      bgGrad.addColorStop(1, "rgba(35, 24, 15, 0.96)");
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(b.x, b.y, b.w, b.h);
 
-      ctx.font = "bold 15px 'Rajdhani', sans-serif";
-      ctx.fillStyle = "#e8c976";
+      // Engraved rank text in gold
+      var rankTitle = uRank.toUpperCase();
+      if (b.role) rankTitle += " // " + b.role;
+
+      var rSize = 12;
+      ctx.font = "bold " + rSize + "px 'Cinzel', 'Marcellus', 'Georgia', serif";
+      var rMaxW = b.w - 18;
+      var rMeasured = ctx.measureText(rankTitle).width;
+      if (rMeasured > rMaxW) {
+        rSize = Math.max(9, Math.floor(rSize * (rMaxW / rMeasured)));
+        ctx.font = "bold " + rSize + "px 'Cinzel', 'Marcellus', 'Georgia', serif";
+      }
+
+      ctx.fillStyle = "#f5d77f";
       ctx.textAlign = "center";
-      ctx.fillText(uRank.toUpperCase(), 700, 321);
-      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.shadowColor = "rgba(0,0,0,0.85)";
+      ctx.shadowBlur = 3;
+      ctx.fillText(rankTitle, b.cx, b.cy);
+      ctx.restore();
     }
   }
 
@@ -2802,7 +2852,7 @@ $("cventer").onclick=function(){enterDB()};
     if (tPath && templateCache[uCell]) {
       var tImg = templateCache[uCell];
       if (tImg.complete && tImg.naturalWidth > 0) {
-        renderTemplateCard(tImg);
+        renderTemplateCard(tImg, uCell);
         return;
       } else {
         tImg.onload = function() { renderCard(); };
